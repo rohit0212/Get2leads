@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Get2Leads - Login</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./stylesheets/common.css" >
+</head>
+<body>
+<!-- Header Navigation bar -->
+<nav class="navbar navbar-blue navbar-static-top">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <h1 class="white-font logo">Get2Leads</h1>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+      <form action="/login" method="post"  role="form" class="navbar-form navbar-right login-form" >
+       <% if (message.length > 0) { %>
+           <div class="row login-form">
+		      <div class="col-xs-12 col-sm-12"><span class="pad-r-8" style="color:red;">
+
+                      <%= message %>
+
+                  </span></div>
+		   </div> <% } %>
+		  <div class="row login-form">
+           <div class="col-xs-12 col-sm-5">
+		       <span class="white-font pad-r-8">Email Address</span><br />
+		       <span class="pad-r-8"><input type="email" name="email" id="email" class="form-control-sm" placeholder="Enter email" required/> </span>
+
+		   </div>
+           <div class="col-xs-12 col-sm-5">
+		       <span class="white-font pad-r-8">Password</span><br />
+			   <span class="pad-r-8"><input type="password" name="password" class="form-control-sm" id="login-password" placeholder="Enter password" required /></span>
+			</div>
+	       <div class="col-xs-12 col-sm-2"><span class="pad-r-8" > <button type="submit" class="btn btn-primary btn-sm" style="margin-top:16px;margin-right:20px;">Login</button></span> </div>
+          </div>
+		  <div class="row login-form">
+           <div class="col-xs-12 col-sm-5"><span class="pad-r-8 light-blue-font"><input type="checkbox">Remember me</input></span></div>
+           <div class="col-xs-12 col-sm-7"> <a href="./forgotpassword" class="pad-r-8">Forgotten your password?</a></div>
+          </div>
+      </form>
+
+                  	</nav>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<!-- Header Navigation bar -->
+
+
+<div class="container" >
+
+  <div class="row">
+    <div class="col-sm-3 col-md-7 col-lg-7" ">
+     <!--<img alt="" src="BusinessLinkHalton.jpg" width="100%" height="650px" >-->
+    </div>
+
+
+    <div class="col-sm-9 col-md-5 col-lg-5" >
+
+     <form action="/signup" method="post" class="signup-form">
+     <h1>Sign Up</h1>
+     <h3>It's absolutely free for all</h3>
+
+      <div class="form-group row">
+      <label class="col-sm-4 form-control-label"></label>
+
+    <label for="signupCustomer" class="col-sm-4 form-control-label">
+      <input type="radio" name="optionsRadios" id="signupCustomer" value="customer" required>
+      Customer
+    </label>
+
+     <label for="signupBusiness" class="col-sm-4 form-control-label">
+      <input type="radio" name="optionsRadios" id="signupBusiness" value="business" required>
+      Business
+    </label>
+  </div>
+
+  <div class="form-group row">
+    <label for="signupEmail" class="col-sm-4 form-control-label">Email</label>
+    <div class="col-sm-8">
+      <input type="email" name="email" class="form-control input-lg" id="signupEmail" placeholder="Email" required />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="signupPassword" class="col-sm-4 form-control-label">Password</label>
+    <div class="col-sm-8">
+      <input type="password" name="password" class="form-control input-lg" id="signupPassword" placeholder="Password" required />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="signupConfirmPassword" class="col-sm-4 form-control-label">Confirm Password</label>
+    <div class="col-sm-8">
+      <input type="password" class="form-control input-lg" id="signupConfirmPassword" placeholder="Confirm Password" required />
+    </div>
+  </div>
+
+   <div class="form-group row">
+    <label for="signupFirstName" class="col-sm-4 form-control-label">First Name</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control input-lg" id="signupFirstName" placeholder="First Name" required />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="signupLastName" class="col-sm-4 form-control-label">Last Name</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control input-lg" id="signupLastName" placeholder="Last Name">
+    </div>
+  </div>
+
+
+
+  <div class="form-group row">
+    <div class="col-sm-offset-4 col-sm-8">
+      <button type="submit" class="btn btn-primary">Sign Up</button>
+    </div>
+  </div>
+</form>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="topplinebg"">
+
+        <div class="col-md-12" style="text-align:center;"><br /><br />
+          Copyright 2016 get2leads.com
+          </div>
+
+</div>
+</body>
+</html>

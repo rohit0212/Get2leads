@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <% include ./partials/head%>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="../javascripts/libs/angular/angular-socket-io/socket.js" ></script>
+    <script src="../javascripts/angularjs/controller/leads.js"></script>
+</head>
+
+<body class="animated fadeIn ng-cloak" ng-cloak ng-app="leadsApp" ng-controller="leadsController" ng-init="emailId = '<%=user.local.email%>' " >
+<% var headerActiveClass =['' , 'active']%>
+<% include ./partials/mainheader%>
+
+<div class="container" style="margin-top: 60px;" >
+    <div class="col-md-12 no-paddin-xs">
+        <div class="row">
+
+
+
+
+
+            <div class="profile-info col-md-12">
+            
+                <!-- Create post block -->
+                <%if(user.local.userType != "business"){%>
+                <div class="create-post">
+                    <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#newPostModal">Create New Post</button>
+
+                    <div id="newPostModal" class="modal fade" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="gridModalLabel" aria-hidden="false">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" >New Post</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container-fluid bd-example-row">
+
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="control-label">Category</label>
+                                                 </div>
+                                                <div class="col-md-4">
+                                                    <select class="form-control placeholder" ng-model="newLead.category" ng-change="getSubCategory(newLead.category)">
+                                                        <option value="">Category</option>
+                                                        <%for(category in categories){
+                                                        if(typeof categories[category] !== 'function') {
+                                                        %>
+                                                        <option value="<%= category%>"><%= categories[category]['description']%></option>
+                                                        <%}}%>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="control-label">Sub Category</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <select class="form-control placeholder" ng-model="newLead.subCategory">
+                                                        <option value="">Sub Category</option>
+                                                        <option ng-repeat="(key,val) in subCategories" value="{{key}}">{{val}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Subject</label>
+                                            <div class="col-md-10">
+                                                <input class="form-control" type="text" placeholder="Subject" ng-model="newLead.subject">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Price Range</label>
+                                            <div class="col-md-3">
+                                                <input class="form-control" type="text" placeholder="Price Range From" ng-model="newLead.priceRangeFrom">
+                                            </div>
+                                            <label class="col-md-1 control-label">To</label>
+                                            <div class="col-md-3">
+                                                  <input class="form-control" type="text" placeholder="Price Ragnge To"  ng-model="newLead.priceRangeTo">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <select class="form-control placeholder" ng-model="newLead.activeStatus">
+                                                    <option value="">Active/Inactive</option>
+                                                    <option value="Active">Active</option>
+                                                    <option value="Inactive">Inactive</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label class="control-label">From Date</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class='input-group date datetimepicker' >
+                                                    <input type='text' class="form-control" placeholder="From Date" ng-model="newLead.fromDate"/>
+                                                            <span class="input-group-addon">
+                                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                           </span>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label class="control-label">To Date</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class='input-group date datetimepicker'>
+                                                    <input type='text' class="form-control" placeholder="To Date"  ng-model="newLead.toDate"/>
+                                                            <span class="input-group-addon">
+                                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                           </span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Country</label>
+                                            <div class="col-md-3">
+                                                <select class="form-control placeholder" ng-model="newLead.country">
+                                                    <option value="">Country</option>
+                                                    <option value="India">India</option>
+                                                    <option value="USA">USA</option>
+                                                    <option value="England">England</option>
+                                                </select>
+                                            </div>
+                                            <label class="col-md-2 control-label">Zip Code</label>
+                                            <div class="col-md-2">
+                                                <input class="form-control" type="text" placeholder="Zip Code" ng-model="newLead.zipCode">
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control"  placeholder="Limit(in miles)"  ng-model="newLead.limit">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Detail</label>
+                                            <div class="col-md-10">
+                                                <textarea class = "form-control" rows = "5" placeholder="What you are looking for?"  ng-model="newLead.detail"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Upload Photo or Video</label>
+                                            <div class="col-md-10">
+                                                <input type="file" class="form-control-file"  file-model="newLead.file" >
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="modal-footer  bg-grey ">
+                                    <div style="text-align: center;">
+                                        <button type="button" class="btn btn-success" ng-click="publishNewLead()">Publish</button>
+                                        <button type="button" class="btn btn-primary">Save</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <%}%>
+                    <!-- Create post end -->
+              
+
+
+
+
+                <!-- Display posts start -->
+                <div class="panel panel-white post panel-shadow font12" ng-repeat="lead in leads">
+                    <div class="post-heading">
+                        <div class="pull-left image"><img ng-src="{{lead.createdBy.local.profileImageUrl}}"    class="avatar" alt="RY"></div>
+                         
+                        <div >
+                            <div style="display:inline;font-weight: 700;font-size: 14px;">{{lead.subject+ " ("+lead.priceRangeFrom +"- "+lead.priceRangeTo+") " +" - " + lead.country+" " + lead.zipCode }}</div>
+                            <div ><span style="font-weight: 600;font-size: 13px;">Category : </span>{{lead.category}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 600;font-size: 13px;">Sub-Category : </span>{{lead.subCategory}}</div>
+
+                            <div ><div class="title h5" style="display:inline;"><a href="#" class="post-user-name">
+                                        {{lead.createdBy.local.userDetails.contactDetails.firstName +" "+lead.createdBy.local.userDetails.contactDetails.lastName}}
+                                    </a></div><h6 class="text-muted time" style="display:inline;">Posted on {{lead.createdDate | date : 'MMMM d, yyyy hh:mm:ss a'}}</h6></div>
+                        </div>
+                    </div>
+
+                    <div class="post-description">
+                        <p>{{lead.detail}}</p>
+                         <div class="post-image" >
+				          <img ng-src="{{lead.images[0].url}}" class="image show-in-modal" style="max-height:300px;">
+				         </div>
+                        <div class="stats" >
+                                <span class="stat-item" title="Like" ><a href=""><i class="glyphicon glyphicon-thumbs-up"  style="padding-right: 5px;"></i></a>228 </span>
+                                <span class="stat-item"  title="Comments"  onclick=" document.getElementById('bussiness-comment-input').focus();"> <i class="glyphicon glyphicon-comment" style="padding-right: 5px;"></i>{{lead.comments.length}}</span>
+                                <span class="stat-item" title="Accepted"><i class="glyphicon glyphicon-ok" style="padding-right: 5px;"></i></span>
+                                <span class="stat-item"  title="Rejected"><i class="glyphicon glyphicon-remove" style="padding-right: 5px;"></i></span>
+                        </div>
+                    </div>
+                    
+                  
+                    
+                    <div class="post-footer" >
+
+                        <ul class="comments-list" >
+                            <li class="comment" ng-repeat="comnt in lead.comments"   ><a class="pull-left" href="#" > <!-- ng-if="comnt.createdBy._id == userId || lead.createdBy._id == userId"  -->
+                                   
+                                    <img class="avatar" ng-src="{{comnt.createdBy.local.profileImageUrl}}" alt="avatar" > </a>
+                                <div class="comment-body" >
+                                    <div class="comment-heading">
+                                        <h4 class="comment-user-name"><a href="#">{{comnt.createdBy.local.userDetails.contactDetails.firstName+" "+comnt.createdBy.local.userDetails.contactDetails.lastName}}</a></h4>
+                                        <!--<h5 class="time">7 minutes ago</h5> -->
+                                    </div>
+                                    <div style="padding: 0px;">{{comnt.comment}}</div>
+
+                                    <a href="#" class="comment-like-link">Like</a> <a href="" class="comment-reply-link" ng-click="focusToComments(comnt._id)">Reply</a><h6 class="text-muted time" style="display:inline;">{{comnt.createdDate | date :  'MMMM d, yyyy hh:mm:ss a'}}</h6>
+
+
+                                    <ul class="comments-list" >
+                                    <li class="comment" ng-repeat="reply in comnt.replies">
+                                    <a class="pull-left" href="#"> <img  class="avatar1" ng-src="{{reply.createdBy.local.profileImageUrl}}" alt="avatar" > </a>
+                                    <div class="comment-body sub-comment-body">
+                                        <div class="comment-heading">
+                                            <h4 class="comment-user-name"><a href="#">{{reply.createdBy.local.userDetails.contactDetails.firstName+" "+reply.createdBy.local.userDetails.contactDetails.lastName}}</a></h4>
+                                           <!-- <h5 class="time">7 minutes ago</h5> -->
+                                        </div>
+                                        <div style="padding: 0px;">{{reply.replyComment}}</div>
+                                        <a href="#" class="comment-like-link">Like</a> <a href="" ng-click="focusToComments(comnt._id)" class="comment-reply-link">Reply</a><h6 class="text-muted time" style="display:inline;">{{reply.createdDate | date :  'MMMM d, yyyy hh:mm:ss a'}}</h6>
+
+                                    </div>
+                                    </li>
+                                        <li class="comment" style="padding-bottom:1px;">
+                                            <a class="pull-left" href="#"> <img  class="avatar1" ng-src="<%= user.local.profileImageUrl %>" alt="avatar" > </a>
+                                            <div class="comment-body sub-comment-body">
+                                                <form ng-submit="saveReply(comnt, lead.createdBy.local.email)">
+                                                <input	id="{{comnt._id}}" class="form-control input-sm reply-comment-input" placeholder="Write a Reply..." type="text" ng-model="comnt.addReply">
+                                                </form>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+                            </li>
+
+                        </ul>
+                         <!-- only bussiness user can camment and for other user it should not available -->
+                        <%if(user.local.userType == "business"){%>
+                        <form ng-submit="saveComment(lead)" ng-hide="lead.comments.length" >
+                        <input	class="form-control input-sm add-comment-input" placeholder="Write a comment..." type="text" ng-model="lead.addComment">
+                        </form>
+                        <%}%>
+                    </div>
+                </div>
+              <!-- Display posts end -->
+
+
+                <div class="panel panel-white post-load-more panel-shadow text-center">
+                    <button class="btn btn-primary"><i class="fa fa-refresh"></i>Load
+                        More...</button>
+                </div>
+            </div>
+
+         <!--   <div class="profile-nav col-md-3  no-paddin-xs">
+                <div class="panel">
+                    <div class="user-heading round"><a href="#"> <img
+                                    src="../images/friends/rohit.jpg" alt=""> </a>
+                        <h1><%= user.local.userDetails.contactDetails.firstName+" "+user.local.userDetails.contactDetails.lastName %></h1>
+                         <p><%= user.local.email %></p>
+                    </div>
+                      <ul class="nav nav-pills nav-stacked">
+                          <li><a href="profile.html"> <i class="fa fa-user"></i> Profile</a></li>
+                          <li><a href="about.html"> <i class="fa fa-info-circle"></i>
+                                  About</a></li>
+                          <li><a href="followers.html"> <i class="fa fa-users"></i>
+                                  Followers</a></li>
+                          <li><a href="/profile"> <i class="fa fa-edit"></i>
+                                 Edit Profile</a></li>
+                      </ul>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
