@@ -1,6 +1,6 @@
 // load up the user model
 var Lead = require('../model/lead');
-var Comment = require('../model/Comment');
+var Comment = require('../model/comment');
 var mongoose     = require('mongoose');
 var Grid = require('gridfs-stream');
 var fs = require('fs');
