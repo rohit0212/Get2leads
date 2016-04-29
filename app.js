@@ -33,7 +33,7 @@ app.use(bodyParser.json({keepExtentions:true}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'))); //app.use(express.static(path.join(process.env.PWD, 'public')));
-//app.use(multer({dest:'../uploads/'}).any());
+app.use(multer({dest:'../uploads/'}).any());
 // required for passport
 app.use(session({ secret: 'get2leadsindiaget2leadsindiaget2leadsindiaget2leadsindiaget2leadsindia' })); // session secret
 app.use(passport.initialize());
