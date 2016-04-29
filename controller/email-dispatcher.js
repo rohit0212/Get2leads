@@ -22,7 +22,7 @@ EM.dispatchVarifyPasswordLink = function(user, callback){
 }
 
 EM.composeVarifyPasswordEmail = function(user){
-	var link = __dirname +'/verify-account?e='+user.local.email+'&p='+user.local.password;
+	var link = appConfig.appUrl +'/verify-account?e='+user.local.email+'&p='+user.local.password;
 	var html = "<html><body>";
 	html += "Hi "+user.local.userDetails.contactDetails.firstName+",<br><br>";
 	html += "Your username is <b>"+user.local.email+"</b><br><br>";
