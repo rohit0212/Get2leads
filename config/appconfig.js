@@ -1,5 +1,5 @@
 // config/database.js
 module.exports = {
-    'appUrl' : "http://localhost:3000"
+    'appUrl' : "https://get2leads.herokuapp.com"
 
 };
