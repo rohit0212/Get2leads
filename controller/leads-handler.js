@@ -13,7 +13,7 @@ module.exports= {
         var newLead  = new Lead(req.body); //new Lead(req.body.newLead);
         newLead.createdBy = req.user._id;
         
-        if( req.files.length>0){
+      /*  if( req.files.length>0){
         	// console.log(req.body);
             // console.log(req.files);               
              var dirname = require('path').dirname(__dirname);
@@ -35,7 +35,7 @@ module.exports= {
             	});
              
             newLead.images.push({imageName : fileName, mimeType : mimeType , url : '/getImage/'+fileName});
-        }      
+        }  */    
         newLead.save(function(err,lead) {
             if (err)
                 res.send({});
