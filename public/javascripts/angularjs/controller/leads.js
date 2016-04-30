@@ -59,7 +59,7 @@ app.controller('leadsController',['$scope', '$http', 'Socket','Upload','cloudina
 	      if (!$scope.files) return;
 	      angular.forEach(files, function(file){//alert(3);
 	        if (file && !file.$error) {
-	        	alert(4);       	
+	        	//alert(4);       	
 	        	
 	        	file.upload = $upload.upload({
 	                url: "https://api.cloudinary.com/v1_1/" + cloudinary.config().cloud_name + "/upload",
