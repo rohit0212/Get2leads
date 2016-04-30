@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ./partials/head%>
+   
+     
+   <script src="../javascripts/libs/angular/lodash/lodash.js"></script>
+  <script src="../javascripts/libs/angular/cloudinary-core/cloudinary-core.js"></script>
+  <!-- angular file upload -->
+  <script src="../javascripts/libs/angular/ng-file-upload/ng-file-upload-shim.js"></script>
+  <!-- angular dependencies -->
+  <script src="../javascripts/libs/angular/angular-animate/angular-animate.js"></script>
+  <script src="../javascripts/libs/angular/angular-route/angular-route.js"></script>
+  <script src="../javascripts/libs/angular/angular-resource/angular-resource.js"></script>
+  <!-- cloudinary angular plugin -->
+  <script src="../javascripts/libs/angular/cloudinary_ng/js/angular.cloudinary.js"></script>
+  <!-- angular file upload -->
+  <script src="../javascripts/libs/angular/ng-file-upload/ng-file-upload.js"></script>
+  
+  
+   <script src="../javascripts/angularjs/controller/profile.js"></script>
+</head>
+
+
+<body class="animated fadeIn ng-cloak" ng-cloak ng-app="profile" ng-controller="profileController">
+
+<% var headerActiveClass =['active' , '']%>
+<% include ./partials/mainheader%>
+
+<div class="container" style="margin-top: 60px;">
+    <div class="col-md-12 no-paddin-xs">
+        <div class="row">
+            <div class="profile-nav col-md-4  no-padding-xs">
+                <div class="panel">
+                    <div class="user-heading round"> <img id="profile-pic" src="<%= user.local.profileImageUrl %>" alt=""> 
+                    
+                                   <div style="margin-top:-27px;">                                   
+                                   <div href="#" class="fa fa-camera" ngf-select="uploadProfilePic($files)" multiple title="upload" resetOnClick="true" ></div>
+                                   </div>
+                                   
+                        <h1><%= user.local.userDetails.contactDetails.firstName +" "+user.local.userDetails.contactDetails.lastName %></h1>
+                       <!-- <p><%= user.local.email %></p>-->
+                    </div>
+                   
+                    <ul class="nav nav-pills nav-stacked">
+                        <li ng-click="hideShowPanel('businessDetail')"><a href=""> <i class="fa fa-user"></i> Bussiness Detail</a></li>
+                        <li ng-click="hideShowPanel('contactDetail')"><a href="#"> <i class="fa fa-info-circle"></i> Contact Detail</a></li>
+                        <li ng-click="hideShowPanel('changePassword')"><a href=""> <i class="fa fa-users"></i>Change Password</a></li>
+                        <li ng-click="hideShowPanel('leadCategory')"><a href="#"> <i class="fa fa-edit"></i>Lead Cotegories/SubCategories</a></li>
+                        <li ng-click="hideShowPanel('commPreferences')"><a href=""> <i class="fa fa-edit"></i>Communication Preferences</a></li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="profile-info col-md-8">
+
+                <!-- update Contact Detail -->
+                <div class="panel panel-primary post panel-shadow" ng-show="panel.contactDetail">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Contact Details</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">First name</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" placeholder="First name" ng-model="contactDetails.firstName">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Last name</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" placeholder="Last name" ng-model="contactDetails.lastName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Contact Phone</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" placeholder="Contact Phone" ng-model="contactDetails.contactPhone">
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <label class="col-md-4 control-label">Sex</label>
+                            <div class="col-md-8">
+                                <div class="form-control">
+                                    <div class="col-md-6 padding-left0-right0">
+                                        <input type="radio" value="male" required ng-model="contactDetails.sex">Male
+                                    </div>
+                                    <div class="col-md-6 padding-left0-right0">
+                                        <input type="radio" required ng-model="contactDetails.sex">Female
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Date of Birth</label>
+                            <div class="col-md-8">
+                                <div class="col-md-4 padding-left0-right0">
+
+                                    <select class="form-control placeholder" ng-model="contactDetails.dob.month">
+                                        <option value="">Month</option>
+                                        <option value="Jan">Jan</option>
+                                        <option value="Feb">Feb</option>
+                                        <option value="Mar">Mar</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 padding-left0-right0">
+                                    <select class="form-control placeholder" ng-model="contactDetails.dob.date">
+                                        <option  value="" >Date</option>
+                                        <option value="01">01</option>
+                                        <option value="02">02</option>
+                                        <option value="03">03</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 padding-left0-right0">
+                                    <select class="form-control placeholder" ng-model="contactDetails.dob.year">
+                                        <option  value="" >Year</option>
+                                        <option value="2001">2001</option>
+                                        <option value="2002">2002</option>
+                                        <option value="2003">2003</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Address</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" placeholder="Address 1" ng-model="contactDetails.address1">
+                                <input class="form-control" type="text" placeholder="Address 2" ng-model="contactDetails.address2">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">City</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" placeholder="City" ng-model="contactDetails.city">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Postal Code</label >
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" placeholder="Postal Code" ng-model="contactDetails.postalCode" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Country</label>
+                            <div class="col-md-8">
+                                <select class="form-control placeholder" ng-model="contactDetails.country">
+                                    <option value="">Country</option>
+                                    <option value="india">India</option>
+                                    <option value="usa">USA</option>
+                                    <option value="england">England</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-8 update-info-btn" > <button type="submit" class="btn btn-primary" ng-click="updateContactDetails()">Update</button></div>
+                        </div>
+                    </div>
+                </div><!-- end Contact Detail-->
+
+                <!-- update bussiness detail -->
+                <div class="panel panel-primary post panel-shadow" ng-show="panel.businessDetail">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Business Detail</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <b>About Bussiness</b>
+                                <textarea class = "form-control" rows = "5" placeholder="About Bussiness" ng-model="businessDetails.aboutBusiness"></textarea>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Company Name</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" placeholder="Company Name"  ng-model="businessDetails.companyName">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Address</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" placeholder="Address 1" ng-model="businessDetails.address1">
+                                <input class="form-control" type="text" placeholder="Address 2"  ng-model="businessDetails.address2">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">City</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" placeholder="City"  ng-model="businessDetails.city">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Postal Code</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" placeholder="Postal Code"  ng-model="businessDetails.postalCode">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Country</label>
+                            <div class="col-md-8">
+                                <select class="form-control placeholder"  ng-model="businessDetails.country">
+                                    <option value="" >Country</option>
+                                    <option value="india">India</option>
+                                    <option value="usa">USA</option>
+                                    <option value="england">England</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Primary Phone</label >
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" placeholder="Primary Phone"  ng-model="businessDetails.primaryPhone">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Secondary Phone</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" placeholder="Secondary Phone"  ng-model="businessDetails.secondryPhone">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Fax</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" placeholder="Fax"  ng-model="businessDetails.fax">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Website</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" placeholder="Website"  ng-model="businessDetails.website">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-8 update-info-btn" > <button type="submit" class="btn btn-primary" ng-click="updateBusinessDetails()">Update</button></div>
+                        </div>
+                    </div>
+                </div><!-- end update bussiness detail -->
+
+                <!-- update Lead Category and subcategory detail -->
+                <div class="panel panel-primary post panel-shadow" ng-show="panel.leadCategory">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lead Categories/Sub Categories</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="form-group">
+                            <label class="col-md-6 control-label">Categories</label>
+                            <label class="col-md-6 control-label">Sub Categories</label>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <select class="form-control placeholder">
+                                    <option value="">Category</option>
+                                    <option value="">House Service</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <select class="form-control placeholder">
+                                    <option value="">Sub Category</option>
+                                    <option value="">Gardening</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <select class="form-control placeholder">
+                                    <option value="">Category</option>
+                                    <option value="">House Service</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <select class="form-control placeholder">
+                                    <option value="">Sub Category</option>
+                                    <option value="">Gardening</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <select class="form-control placeholder">
+                                    <option value="">Category</option>
+                                    <option value="">House Service</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <select class="form-control placeholder">
+                                    <option value="">Sub Category</option>
+                                    <option value="">Gardening</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <select class="form-control placeholder">
+                                    <option value="">Category</option>
+                                    <option value="">House Service</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <select class="form-control placeholder">
+                                    <option value="">Sub Category</option>
+                                    <option value="">Gardening</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="form-group">
+                            <div class="col-md-12 update-info-btn" > <button type="submit" class="btn btn-primary">Update</button></div>
+                        </div>
+                    </div>
+                </div><!-- end Lead Category and subcategory detail -->
+
+                <!-- update password info -->
+                <div  class="panel panel-primary post panel-shadow" ng-show="panel.changePassword">
+
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Change password</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form name="changePassForm" autocomplete='off'>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Current Password</label>
+                            <div class="col-md-8">
+                                <input class="form-control" id="cPassword" type="password" name="cPassword" placeholder="Current Password" autocomplete="off"
+                                       ng-model="passwords.cPassword" required />
+                                 <span class="form-error-message">
+                                    <span ng-show="changePassForm.cPassword.$error.required && changePassForm.cPassword.$dirty" >Please enter your current password</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">New Password</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="password" name="nPassword" placeholder="New Password"
+                                       ng-model="passwords.nPassword"  ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required />
+                                 <span class="form-error-message">
+                                <span ng-show="changePassForm.nPassword.$error.required && changePassForm.nPassword.$dirty" >Please enter your new password</span>
+                                <span ng-show="!changePassForm.nPassword.$error.required && (changePassForm.nPassword.$error.minlength || changePassForm.nPassword.$error.maxlength) &&
+                                changePassForm.nPassword.$dirty">Passwords must be between 8 and 20 characters.</span>
+                                <span ng-show="!changePassForm.nPassword.$error.required && !changePassForm.nPassword.$error.minlength && !changePassForm.nPassword.$error.maxlength && changePassForm.nPassword.$error.pattern
+                                && changePassForm.nPassword.$dirty">Must contain one lower &amp; uppercase letter, and one non-alpha character (a number or a symbol.)</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <label class="col-md-4 control-label" >Confirm Password</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="password" name="confPassword" placeholder="Confirm Password"
+                                       ng-model="passwords.confPassword"  valid-password-c   required />
+                                 <span class="form-error-message">
+                                    <span ng-show="changePassForm.confPassword.$error.required && changePassForm.confPassword.$dirty" >Please confirm your password</span>
+                                     <span ng-show="!changePassForm.confPassword.$error.required && changePassForm.confPassword.$error.noMatch && changePassForm.nPassword.$dirty">Passwords do not match.</span>
+                                </span>
+                            </div>
+
+
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-8 update-info-btn" > <button type="submit" class="btn btn-primary"
+                                            ng-disabled="!changePassForm.$valid" ng-click="updatePassword()">Update</button></div>
+                        </div>
+                        </form>
+                    </div>
+                </div><!-- end update password info-->
+
+                <!-- update Communication Preferences info -->
+                <div class="panel panel-primary post panel-shadow" ng-show="panel.commPreferences">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Communication Preferences</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-12"> <input type="radio"  ng-model="commPrefences" value="email" required>
+                            Send or receive communication via Email
+                                </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12"> <input type="radio"  ng-model="commPrefences" value="sms" required>
+                            Send or receive communication via SMS
+                                </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12 update-info-btn"> <button type="submit" class="btn btn-primary" ng-click="updatePreferences()">Update</button></div>
+                        </div>
+                      </div>
+                </div><!-- end update Communication Preferences info-->
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="chat-sidebar focus">
+    <div class="list-group text-left">
+        <p class="text-center visible-xs"><a href="#" class="hide-chat">Hide</a></p>
+        <p class="text-center chat-title">Online users</p>
+        <a href="messages.html" class="list-group-item">
+            <i class="fa fa-check-circle connected-status"></i>
+            <img src="../images/friends/rohit.jpg" class="img-chat img-thumbnail">
+            <span class="chat-user-name">Rahul</span>
+        </a>
+        </a> <a href="messages.html"
+                class="list-group-item"> <i
+                    class="fa fa-check-circle connected-status"></i> <img
+                    src="../images/friends/rohit.jpg" class="img-chat img-thumbnail"> <span
+                    class="chat-user-name">Sam</span> </a></div>
+</div>
+<div class="modal fade in photo-modal" tabindex="-1" role="dialog"
+     aria-labelledby="myLargeModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-photo">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myLargeModalLabel">&nbsp;</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-8">
+                    <div class="notification-row">
+                        <div class="notification-padding">
+                            <div class="sidebar-fa-image"><img class="notifications"
+                                                               src="../images/friends/rohit.jpg"></div>
+                            <div class="sidebar-fa-text"><b><a href="#">Martha markguy</a></b>
+                                <p>This is a comment, you are my friend<br>
+                                    <small class="timeago">5 min ago</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    <img class="img-thumbnail img-content" src="../images/friends/rohit.jpg"></div>
+                <div class="col-md-4">
+                    <div class="notification-row">
+                        <div class="notification-padding">
+                            <div class="sidebar-fa-image"><img class="notifications"
+                                                               src="../images/friends/rohit.jpg"></div>
+                            <div class="sidebar-fa-text"><b><a href="#">Sneider
+                                        montoya</a></b>
+                                <p>This is a comment, you are my friend<br>
+                                    <small class="timeago">5 min ago</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notification-row">
+                        <div class="notification-padding">
+                            <div class="sidebar-fa-image"><img class="notifications"
+                                                               src="../images/friends/rohit.jpg"></div>
+                            <div class="sidebar-fa-text"><b><a href="#">Martha markguy</a></b>
+                                <p>This is my awesome comment, sky is the limit<br>
+                                    <small class="timeago">5 min ago</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notification-row">
+                        <div class="notification-padding">
+                            <div class="sidebar-fa-image"><img class="notifications"
+                                                               src="../images/friends/rohit.jpg"></div>
+                            <div class="sidebar-fa-text"><b><a href="#">Camila Gonther</a></b>
+                                <p>Ok is my turn now, pay attention<br>
+                                    <small class="timeago">5 min ago</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notification-row">
+                        <div class="notification-padding">
+                            <div class="sidebar-fa-image"><img class="notifications"
+                                                               src="../images/friends/rohit.jpg"></div>
+                            <div class="sidebar-fa-text"><b><a href="#">Selena
+                                        Teirbook</a></b>
+                                <p>Me and you against the world<br>
+                                    <small class="timeago">5 min ago</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notification-row">
+                        <div class="notification-padding">
+                            <div class="sidebar-fa-image"><img class="notifications"
+                                                               src="../images/friends/rohit.jpg"></div>
+                            <div class="sidebar-fa-text"><b><a href="#">Marck Cleinton</a></b>
+                                <p>It's your boy dey-dey<br>
+                                    <small class="timeago">5 min ago</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notification-row">
+                        <div class="notification-padding">
+                            <div class="sidebar-fa-image"><img class="notifications"
+                                                               src="../images/friends/rohit.jpg"></div>
+                            <div class="sidebar-fa-text"><b><a href="#">Maria hurtado</a></b>
+                                <p>This is a comment, you are my friend<br>
+                                    <small class="timeago">5 min ago</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>
