@@ -79,7 +79,7 @@ module.exports = function(passport) {
                             if (err)
                                 throw err;
 
-                            emailDispatcher.dispatchVarifyPasswordLink(newUser, function(e, m){
+                            emailDispatcher.dispatchVarifyPasswordLink(newUser,req.protocol + "://" + req.get('host'), function(e, m){
                                 // this callback takes a moment to return //
                                 // TODO add an ajax loader to give user feedback //
                                 if (!e){

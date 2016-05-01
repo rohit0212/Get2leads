@@ -37,7 +37,7 @@ module.exports= {
 
    //console.log("user -"+ user);
    if (user){
-         emailDispatcher.dispatchForgotPasswordLink(user, function(e, m){
+         emailDispatcher.dispatchForgotPasswordLink(user,req.protocol + "://" + req.get('host'), function(e, m){
          // this callback takes a moment to return //
          // TODO add an
          // ajax loader to give user feedback //

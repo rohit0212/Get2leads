@@ -1,6 +1,4 @@
 
-var appConfig = require('../config/appconfig');
-
 var EM = {};
 module.exports = EM;
 
@@ -11,18 +9,18 @@ EM.server = require("emailjs/email").server.connect({
 	ssl		    : true
 });
 
-EM.dispatchVarifyPasswordLink = function(user, callback){
+EM.dispatchVarifyPasswordLink = function(user,appUrl, callback){
 	EM.server.send({
 		from         : process.env.EMAIL_FROM || 'Get2Leads<do-not-reply@rollingpoint.com>',
 		to           : user.local.email,
 		subject      : 'Varify Account',
 		text         : 'something went wrong... :(',
-		attachment   : EM.composeVarifyPasswordEmail(user)
+		attachment   : EM.composeVarifyPasswordEmail(user,appUrl)
 	}, callback );
 }
 
-EM.composeVarifyPasswordEmail = function(user){
-	var link = appConfig.appUrl +'/verify-account?e='+user.local.email+'&p='+user.local.password;
+EM.composeVarifyPasswordEmail = function(user,appUrl){
+	var link = appUrl +'/verify-account?e='+user.local.email+'&p='+user.local.password;
 	var html = "<html><body>";
 	html += "Hi "+user.local.userDetails.contactDetails.firstName+",<br><br>";
 	html += "Your username is <b>"+user.local.email+"</b><br><br>";
@@ -34,18 +32,18 @@ EM.composeVarifyPasswordEmail = function(user){
 	return  [{data:html, alternative:true}];
 }
 
-EM.dispatchForgotPasswordLink = function(user, callback){
+EM.dispatchForgotPasswordLink = function(user,appUrl, callback){
 	EM.server.send({
 		from         : process.env.EMAIL_FROM || 'Get2Leads Login <do-not-reply@rollingpoint.com>',
 		to           : user.local.email,
 		subject      : 'Forgot Password?',
 		text         : 'something went wrong... :(',
-		attachment   : EM.composeForgotPasswordEmail(user)
+		attachment   : EM.composeForgotPasswordEmail(user,appUrl)
 	}, callback );
 }
 
-EM.composeForgotPasswordEmail = function(user){
-	var link = appConfig.appUrl +'/resetpassword?token='+user.local.password;
+EM.composeForgotPasswordEmail = function(user,appUrl){
+	var link = appUrl +'/resetpassword?token='+user.local.password;
 	var html = "<html><body>";
 	html += "Hi "+user.local.userDetails.contactDetails.firstName+",<br><br>";
 

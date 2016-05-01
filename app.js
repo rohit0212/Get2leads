@@ -9,17 +9,25 @@ var flash        = require('connect-flash');
 var morgan       = require('morgan');
 var session      = require('express-session');
 
-var configDB = require('./config/database');
-//mongoose.createConnection(configDB.url); // connect to our database
-// Connect to the db
-mongoose.connect(configDB.url);
 require('./config/passport')(passport);
 
 // configuration ===============================================================
-
-
-
 var app = express();
+
+//environment setup
+if (app.get('env') === 'development') {
+	//database connect
+	mongoose.connect("mongodb://localhost:27017/get2leads");
+}else{
+	//database connect
+	mongoose.connect("mongodb://get2leads:get2leads@ds021771.mlab.com:21771/get2leads");
+}
+
+
+
+
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -50,9 +58,12 @@ app.use(function(req, res, next) {
 
 // error handlers
 
-// development error handler
-// will print stacktrace
+// development handler
 if (app.get('env') === 'development') {
+	
+	
+	//error handler
+	// will print stacktrace
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
@@ -60,7 +71,7 @@ if (app.get('env') === 'development') {
       error: err
     });
   });
-}
+}else{
 
 // production error handler
 // no stacktraces leaked to user
@@ -71,6 +82,7 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+}
 
 
 module.exports = app;
