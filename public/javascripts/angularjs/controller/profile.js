@@ -12,7 +12,7 @@ app.config(['cloudinaryProvider', function (cloudinaryProvider) {
 
 app.controller('profileController',['$scope', '$rootScope', '$http', 'Upload','cloudinary', 
    function($scope,$rootScope, $http,  $upload,cloudinary) {
-   
+  
    $scope.uploadProfilePic = function(files){ //alert(2);
 	      $scope.files = files;
 	      if (!$scope.files) return;
@@ -33,12 +33,15 @@ app.controller('profileController',['$scope', '$rootScope', '$http', 'Upload','c
 	               // file.progress = Math.round((e.loaded * 100.0) / e.total);
 	               // file.status = "Uploading... " + file.progress + "%";
 	              }).success(function (imageData, status, headers, config) {
+	            	
+	            	  var imageURL= imageData.secure_url; //cloudinary.image(imageData.public_id, { width: 100, height: 100}).src;
+	            	  
 	            	  $http({
 	                      url: "/updateProfilePic",
 	                      method: "POST",
-	                      data: { imageUrl : imageData.url},
+	                      data: { imageUrl : imageURL},
 	                  }).success(function(data, status, headers, config) {
-	                	  document.getElementById('profile-pic').src = imageData.url;
+	                	  document.getElementById('profile-pic').src = imageURL;
 	                	  
 	                  }).error(function(data, status, headers, config) {
 	                	  

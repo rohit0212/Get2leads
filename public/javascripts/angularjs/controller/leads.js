@@ -53,6 +53,7 @@ app.controller('leadsController',['$scope', '$http', 'Socket','Upload','cloudina
     $scope.newLead ={
     		images : []
     };
+    $scope.fullViewImges= [];
     
     $scope.uploadLeadImages = function(files){ //alert(2);
 	      $scope.files = files;
@@ -73,7 +74,10 @@ app.controller('leadsController',['$scope', '$http', 'Socket','Upload','cloudina
 	               // file.progress = Math.round((e.loaded * 100.0) / e.total);
 	               // file.status = "Uploading... " + file.progress + "%";
 	              }).success(function (imageData, status, headers, config) {
-	            	  $scope.newLead.images.push(imageData);
+	            	  
+	            	  $scope.newLead.images.push({
+	            	        url : imageData.secure_url
+	            	     });
 	              }).error(function (data, status, headers, config) {
 	              // file.result = data;
 	              });
@@ -163,6 +167,14 @@ app.controller('leadsController',['$scope', '$http', 'Socket','Upload','cloudina
     $scope.focusToComments= function(comment){ 
     document.getElementById(comment).focus();
     };
+    
+    $scope.showImageFUllView = function(images){ 
+    	$scope.fullViewImges = images;
+    	$('#imageFullViewModel').modal('toggle');
+        };
+    
+    
+    
     
 }]);
 

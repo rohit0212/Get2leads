@@ -2140,6 +2140,21 @@ select option {
     font-size: 13px
 }
 
+.carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+      width: 70%;
+      margin: auto;
+  }
+.model-full-width{
+width:100%;;
+}
+.model-full-height{
+max-height:100%;
+}
+.image-fullview{
+  max-height: 85vh;
+}
+
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }

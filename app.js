@@ -23,11 +23,6 @@ if (app.get('env') === 'development') {
 	mongoose.connect("mongodb://get2leads:get2leads@ds021771.mlab.com:21771/get2leads");
 }
 
-
-
-
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
