@@ -136,7 +136,7 @@ app.controller('profileController',['$scope', '$rootScope', '$http' ,'Upload','c
                         case 'commPreferences' : $scope.commPrefences = userDetails.commPreferences;
                             break;
                         case 'leadCategories' : $scope.leadCategories = userDetails.leadCategories;
-                           userDetails.leadCategories.length == 0 ? $scope.leadCategories.push(angular.fromJson({category:'',subCategory:''})) : true;
+                           userDetails.leadCategories.length == 0 ? $scope.leadCategories.push(angular.fromJson({active : true ,category:'',subCategory:''})) : true;
                            // $scope.leadCategories.push(angular.fromJson({category:'',subCategory:''}));
                             break;
                         default :
@@ -296,11 +296,11 @@ app.controller('profileController',['$scope', '$rootScope', '$http' ,'Upload','c
        $scope.addMoreLeadCategories = function(){
            $scope.leadCategories.push(angular.fromJson({category:'',subCategory:''}))
        }
-
+/*
        $scope.removeLeadCategories = function(index){
            $scope.leadCategories.splice(index, 1);
        }
-
+*/
 }]);
 
 angular.module('UserValidation', []).directive('validPasswordC', function () {

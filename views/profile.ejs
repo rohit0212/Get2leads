@@ -48,7 +48,7 @@
                         <%}%>
                         <li ng-click="hideShowPanel('contactDetail')" ><a href="#" id="contact-detail"> <i  class="glyphicon glyphicon-user" ></i> Contact Detail</a></li>
                         <li ng-click="hideShowPanel('changePassword')"><a href=""> <i class="glyphicon glyphicon-lock"></i>Change Password</a></li>
-                        <%if(user.local.userType == 'business'){%>
+                        <%if(user.local.userType != 'business'){%>
                         <li ng-click="hideShowPanel('leadCategory')"><a href="#"> <i class="glyphicon glyphicon-filter"></i>Lead Cotegories/SubCategories</a></li>
                         <%}%>
                         <li ng-click="hideShowPanel('commPreferences')"><a href=""> <i class="glyphicon glyphicon-phone-alt"></i>Communication Preferences</a></li>
@@ -333,15 +333,15 @@
                     <div class="panel-body">
                         <ng-form name="categorySubCategoryForm" autocomplete='off'>
                         <div class="form-group">
-                            <label class="col-md-1 control-label"></label>
+                            <label class="col-md-1 control-label">Active</label>
                             <label class="col-md-5 control-label">Categories</label>
                             <label class="col-md-6 control-label">Sub Categories</label>
                         </div>
 
                         <div class="form-group" ng-repeat="leadCat in leadCategories">
 
-                            <div class="col-md-1">
-                            <div class="update-info-btn category-remove" ng-show="$index != 0"> <button type="submit" class="btn btn-primary  btn-xs"  ng-click="removeLeadCategories($index)"><span class="glyphicon glyphicon-minus"></span></button></div>
+                            <div class="col-md-1 category-chekbox">
+                                  <input type="checkbox" data-toggle="switch" ng-model="leadCat.active" />
                             </div>
                             <div class="col-md-5">
                                 <select class="form-control" name="category_{{$index}}" ng-model="leadCat.category" ng-required="true">

@@ -43,6 +43,7 @@ var userSchema = mongoose.Schema({
                 website            :   String
             },
             leadCategories : [{
+                active : Boolean,
                 category : String,
                 subCategory : String
             }]
