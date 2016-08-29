@@ -48,7 +48,7 @@
                         <%}%>
                         <li ng-click="hideShowPanel('contactDetail')" ><a href="#" id="contact-detail"> <i  class="glyphicon glyphicon-user" ></i> Contact Detail</a></li>
                         <li ng-click="hideShowPanel('changePassword')"><a href=""> <i class="glyphicon glyphicon-lock"></i>Change Password</a></li>
-                        <%if(user.local.userType != 'business'){%>
+                        <%if(user.local.userType == 'business'){%>
                         <li ng-click="hideShowPanel('leadCategory')"><a href="#"> <i class="glyphicon glyphicon-filter"></i>Lead Cotegories/SubCategories</a></li>
                         <%}%>
                         <li ng-click="hideShowPanel('commPreferences')"><a href=""> <i class="glyphicon glyphicon-phone-alt"></i>Communication Preferences</a></li>

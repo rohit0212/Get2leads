@@ -97,8 +97,8 @@
       <file leaf-file-name="profile.ejs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/profile.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
-              <caret line="343" column="104" selection-start-line="343" selection-start-column="104" selection-end-line="343" selection-end-column="104" />
+            <state relative-caret-position="237">
+              <caret line="50" column="50" selection-start-line="50" selection-start-column="50" selection-end-line="50" selection-end-column="50" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -380,12 +380,12 @@
       <workItem from="1472017620861" duration="4009000" />
       <workItem from="1472179055306" duration="18876000" />
       <workItem from="1472361626954" duration="21650000" />
-      <workItem from="1472408792566" duration="11759000" />
+      <workItem from="1472408792566" duration="12151000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75961000" />
+    <option name="totallyTimeSpent" value="76353000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -848,8 +848,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/profile.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="343" column="104" selection-start-line="343" selection-start-column="104" selection-end-line="343" selection-end-column="104" />
+        <state relative-caret-position="237">
+          <caret line="50" column="50" selection-start-line="50" selection-start-column="50" selection-end-line="50" selection-end-column="50" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
