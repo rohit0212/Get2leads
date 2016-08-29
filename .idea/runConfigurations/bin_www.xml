@@ -3,7 +3,14 @@
     <envs>
       <env name="DEBUG" value="get2leads:*" />
     </envs>
-    <browser url="http://localhost:3000/" />
+    <browser name="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" start="true" url="http://localhost:3000/" />
+    <profiling v8-profiler-path="" />
+    <EXTENSION ID="com.jetbrains.nodejs.run.NodeJSProfilingRunConfigurationExtension">
+      <profiling v8-profiler-path="" />
+    </EXTENSION>
+    <EXTENSION ID="com.jetbrains.nodejs.run.NodeJSStartBrowserRunConfigurationExtension">
+      <browser name="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" start="true" url="http://localhost:3000/" />
+    </EXTENSION>
     <method />
   </configuration>
 </component>

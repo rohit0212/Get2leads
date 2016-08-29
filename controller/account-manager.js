@@ -193,6 +193,27 @@ module.exports= {
         });
     },
 
+    updateLeadCategories : function( req, res, next) {
+
+        User.findOne({ '_id' : req.user._id}, function(err, user) {
+            var  resMessage = "";
+            if (user){
+                user.local.userDetails.leadCategories = req.body.leadCategories;
+                user.save(function(err) {
+                    if (err) {
+                        console.log('error');
+                        resMessage = "There is some error occurred.";
+                    }
+                    else
+                        resMessage = "Lead Categories/Sub Categories updated successfully";
+
+                    res.send(resMessage);
+                });
+            }else{
+                res.send( "There is some error occurred.");
+            }
+        });
+    },
     getUserData : function( req, res, next) {
 
         User.findOne({ '_id' : req.user._id}, function(err, user) {

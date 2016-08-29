@@ -41,7 +41,11 @@ var userSchema = mongoose.Schema({
                 secondryPhone      :   String,
                 fax                :   String,
                 website            :   String
-            }
+            },
+            leadCategories : [{
+                category : String,
+                subCategory : String
+            }]
         }
     },
     facebook         : {

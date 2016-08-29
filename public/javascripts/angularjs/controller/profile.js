@@ -10,7 +10,7 @@ app.config(['cloudinaryProvider', function (cloudinaryProvider) {
 	}]);
 
 
-app.controller('profileController',['$scope', '$rootScope', '$http', 'Upload','cloudinary', 
+app.controller('profileController',['$scope', '$rootScope', '$http' ,'Upload','cloudinary',
    function($scope,$rootScope, $http,  $upload,cloudinary) {
   
    $scope.uploadProfilePic = function(files){ //alert(2);
@@ -102,8 +102,8 @@ app.controller('profileController',['$scope', '$rootScope', '$http', 'Upload','c
             fax                :   '',
             website            :   ''
         };
-
-        $scope.commPrefences='sms';
+       $scope.leadCategories   = [];
+        $scope.commPrefences='email';
 
         $scope.getUserData = function(){
             $http({
@@ -111,23 +111,40 @@ app.controller('profileController',['$scope', '$rootScope', '$http', 'Upload','c
                 method: "GET",
             }).success(function(data, status, headers, config) {
                 var userDetails = angular.fromJson(data);
-
                 for(detail in userDetails){
                     switch(detail){
                         case 'contactDetails' :  $scope.contactDetails = userDetails.contactDetails;
+                            // for select place holder color change
+                            //angular.element("placeholder").documentTarget = 'Private';
+                           // angular.element("xxx")
+                            //angular.element('#xxx').change();
+                          //angular.element( document.querySelector( '#xxx' ) ).triggerHandler('change');
+                           // angular.element('#xxx').triggerHandler('change');
+                           // alert(queryResult.value);
+                            //$document.find('#xxx').triggerHandler('change');
+                          //  angular.element('.customplaceholder').removeClass('customplaceholder');
+                           // var ele = angular.element('.customplaceholder');//.change();
+                            if(userDetails.contactDetails.dob.month != undefined && userDetails.contactDetails.dob.month !=null){
+                                angular.element('.customplaceholder').removeClass('customplaceholder')
+                            }
+
+                           // triggerHandler($("#xxx"),'change');
+                         //   $("#xxx").trigger("change");
                             break;
                         case 'businessDetails' : $scope.businessDetails = userDetails.businessDetails;
                             break;
                         case 'commPreferences' : $scope.commPrefences = userDetails.commPreferences;
-
+                            break;
+                        case 'leadCategories' : $scope.leadCategories = userDetails.leadCategories;
+                           userDetails.leadCategories.length == 0 ? $scope.leadCategories.push(angular.fromJson({category:'',subCategory:''})) : true;
+                           // $scope.leadCategories.push(angular.fromJson({category:'',subCategory:''}));
                             break;
                         default :
                               break;
                     }
-
                 }
-               // alert(x);
-                //alert(x .businessDetails.website)
+
+
             }).error(function(data, status, headers, config) {
 
             });
@@ -259,6 +276,30 @@ app.controller('profileController',['$scope', '$rootScope', '$http', 'Upload','c
             });
         }
 
+       $scope.updateLeadCategories = function(){
+           $http({
+               url: "/updateLeadCategories",
+               method: "POST",
+               data: { leadCategories : $scope.leadCategories},
+           }).success(function(data, status, headers, config) {
+               $('#messageModal').find('.modal-body').html(data);
+               $('#messageModal').modal('toggle'); //$scope.data = data;
+
+
+           }).error(function(data, status, headers, config) {
+               //$scope.status = status;
+               $('#messageModal').find('.modal-body').html(data);
+               $('#messageModal').modal('toggle')
+           });
+       }
+
+       $scope.addMoreLeadCategories = function(){
+           $scope.leadCategories.push(angular.fromJson({category:'',subCategory:''}))
+       }
+
+       $scope.removeLeadCategories = function(index){
+           $scope.leadCategories.splice(index, 1);
+       }
 
 }]);
 

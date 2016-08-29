@@ -8,7 +8,7 @@ var User = require('../model/user');
 
 //for sending email
 var emailDispatcher= require('../controller/email-dispatcher');
-
+var common= require('../controller/common');
 // expose this function to our app using module.exports
 module.exports = function(passport) {
 
@@ -69,10 +69,10 @@ module.exports = function(passport) {
                         newUser.local.userType    = req.param("userType");
                         newUser.local.email       = email;
                         newUser.local.password    = newUser.generateHash(password);
-                        newUser.local.userDetails.contactDetails.firstName  = req.param("firstName");
-                        newUser.local.userDetails.contactDetails.lastName    = req.param("lastName");
+                        newUser.local.userDetails.contactDetails.firstName  = common.capitaliseFirstLetter(req.param("firstName"));
+                        newUser.local.userDetails.contactDetails.lastName    = common.capitaliseFirstLetter(req.param("lastName"));
                         newUser.local.isVerified  = false;
-
+                        newUser.local.userDetails.commPreferences = "email";
 
                         // save the user
                         newUser.save(function(err) {

@@ -32,7 +32,7 @@
         <div class="row">
             <div class="profile-nav col-md-4  no-padding-xs">
                 <div class="panel">
-                    <div class="user-heading round"> <img id="profile-pic" src="<%= user.local.profileImageUrl %>" alt=""> 
+                    <div class="user-heading round" > <img id="profile-pic" class="profile-pic" src="<%= user.local.profileImageUrl %>" alt="<%=user.local.userDetails.contactDetails.firstName.charAt(0)%><%=user.local.userDetails.contactDetails.lastName.charAt(0)%>">
                     
                                    <div style="margin-top:-27px;">                                   
                                    <div class="fa fa-camera" ngf-select="uploadProfilePic($files)" title="upload" resetOnClick="true" ></div>
@@ -43,11 +43,15 @@
                     </div>
                    
                     <ul class="nav nav-pills nav-stacked">
-                        <li ng-click="hideShowPanel('businessDetail')"><a href=""> <i class="fa fa-user"></i> Bussiness Detail</a></li>
-                        <li ng-click="hideShowPanel('contactDetail')"><a href="#"> <i class="fa fa-info-circle"></i> Contact Detail</a></li>
-                        <li ng-click="hideShowPanel('changePassword')"><a href=""> <i class="fa fa-users"></i>Change Password</a></li>
-                        <li ng-click="hideShowPanel('leadCategory')"><a href="#"> <i class="fa fa-edit"></i>Lead Cotegories/SubCategories</a></li>
-                        <li ng-click="hideShowPanel('commPreferences')"><a href=""> <i class="fa fa-edit"></i>Communication Preferences</a></li>
+                        <%if(user.local.userType == 'business'){%>
+                        <li ng-click="hideShowPanel('businessDetail')"><a href=""> <i class="fa fa-info-circle "></i> Bussiness Detail</a></li>
+                        <%}%>
+                        <li ng-click="hideShowPanel('contactDetail')" ><a href="#" id="contact-detail"> <i  class="glyphicon glyphicon-user" ></i> Contact Detail</a></li>
+                        <li ng-click="hideShowPanel('changePassword')"><a href=""> <i class="glyphicon glyphicon-lock"></i>Change Password</a></li>
+                        <%if(user.local.userType != 'business'){%>
+                        <li ng-click="hideShowPanel('leadCategory')"><a href="#"> <i class="glyphicon glyphicon-filter"></i>Lead Cotegories/SubCategories</a></li>
+                        <%}%>
+                        <li ng-click="hideShowPanel('commPreferences')"><a href=""> <i class="glyphicon glyphicon-phone-alt"></i>Communication Preferences</a></li>
                     </ul>
                 </div>
             </div>
@@ -58,39 +62,52 @@
                 <!-- update Contact Detail -->
                 <div class="panel panel-primary post panel-shadow" ng-show="panel.contactDetail">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Contact Details</h3>
+                        <h3 class="panel-title">Contact Details<span  class="required-hint">Required fields are *</span></h3>
                     </div>
                     <div class="panel-body">
+                        <form name="contactDetailsForm" autocomplete='off'>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">First name</label>
+                            <label class="col-md-4 control-label">First name<span class="required">*</span></label>
                             <div class="col-md-8">
-                                <input class="form-control" type="text" placeholder="First name" ng-model="contactDetails.firstName">
+                                <input class="form-control" type="text" name="firstName" placeholder="First name" ng-model="contactDetails.firstName" ng-required="true">
+                                <span class="form-error-message">
+                                    <span ng-show="contactDetailsForm.firstName.$error.required && contactDetailsForm.firstName.$dirty" >Please Enter Your First Name</span>
+                                </span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Last name</label>
+                            <label class="col-md-4 control-label">Last name<span class="required">*</span></label>
                             <div class="col-md-8">
-                                <input class="form-control" type="text" placeholder="Last name" ng-model="contactDetails.lastName">
+                                <input class="form-control" type="text" name="lastName" placeholder="Last name" ng-model="contactDetails.lastName" ng-required="true">
+                                <span class="form-error-message">
+                                    <span ng-show="contactDetailsForm.lastName.$error.required && contactDetailsForm.lastName.$dirty" >Please Enter Your Last name</span>
+                                </span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Contact Phone</label>
+                            <label class="col-md-4 control-label">Contact Phone<span class="required">*</span></label>
                             <div class="col-md-8">
-                                <input class="form-control" type="text" placeholder="Contact Phone" ng-model="contactDetails.contactPhone">
+                                <input class="form-control" type="text" name="contactPhone" placeholder="Contact Phone" ng-model="contactDetails.contactPhone" ng-required="true">
+                                <span class="form-error-message">
+                                    <span ng-show="contactDetailsForm.contactPhone.$error.required && contactDetailsForm.contactPhone.$dirty" >Please Enter Your Phone Number</span>
+                                </span>
                             </div>
                         </div>
 
                         <div class="form-group ">
-                            <label class="col-md-4 control-label">Sex</label>
+                            <label class="col-md-4 control-label">Sex<span class="required">*</span></label>
                             <div class="col-md-8">
                                 <div class="form-control">
                                     <div class="col-md-6 padding-left0-right0">
-                                        <input type="radio" value="male" required ng-model="contactDetails.sex">Male
+                                        <input type="radio" name="sex" value="male" ng-model="contactDetails.sex" ng-required="true">Male
                                     </div>
                                     <div class="col-md-6 padding-left0-right0">
-                                        <input type="radio" required ng-model="contactDetails.sex">Female
+                                        <input type="radio" name="sex" value="female" ng-model="contactDetails.sex" ng-required="true">Female
                                     </div>
+                                    <span class="form-error-message">
+                                    <span ng-show="contactDetailsForm.sex.$error.required && contactDetailsForm.sex.$dirty" >Please Select Your Sex</span>
+                                </span>
                                 </div>
                             </div>
                         </div>
@@ -100,129 +117,182 @@
                             <div class="col-md-8">
                                 <div class="col-md-4 padding-left0-right0">
 
-                                    <select class="form-control placeholder" ng-model="contactDetails.dob.month">
-                                        <option value="">Month</option>
+                                    <select class="form-control customplaceholder" name="month" ng-model="contactDetails.dob.month" ng-required="contactDetails.dob.date  || contactDetails.dob.year">
+                                        <option value="" disabled selected>Month</option>
                                         <option value="Jan">Jan</option>
                                         <option value="Feb">Feb</option>
                                         <option value="Mar">Mar</option>
                                     </select>
+                                    <span class="form-error-message">
+                                       <span ng-show="contactDetailsForm.month.$error.required">Please Select Month</span>
+                                    </span>
                                 </div>
                                 <div class="col-md-4 padding-left0-right0">
-                                    <select class="form-control placeholder" ng-model="contactDetails.dob.date">
-                                        <option  value="" >Date</option>
+                                    <select class="form-control customplaceholder" name="date"  ng-model="contactDetails.dob.date" ng-required="contactDetails.dob.month || contactDetails.dob.year">
+                                        <option value="" disabled selected>Date</option>
                                         <option value="01">01</option>
                                         <option value="02">02</option>
                                         <option value="03">03</option>
                                     </select>
+                                    <span class="form-error-message" >
+                                       <span ng-show="contactDetailsForm.date.$error.required" >Please Select Date</span>
+                                    </span>
                                 </div>
                                 <div class="col-md-4 padding-left0-right0">
-                                    <select class="form-control placeholder" ng-model="contactDetails.dob.year">
-                                        <option  value="" >Year</option>
-                                        <option value="2001">2001</option>
-                                        <option value="2002">2002</option>
-                                        <option value="2003">2003</option>
+                                    <select class="form-control customplaceholder" name="year" ng-model="contactDetails.dob.year" ng-required="contactDetails.dob.month  || contactDetails.dob.date">
+                                        <option value="" disabled >Year</option>
+                                        <option value="2001">1990</option>
+                                        <option value="2002">1991</option>
+                                        <option value="2003">1992</option>
+                                        <option value="2001">1993</option>
+                                        <option value="2002">1994</option>
+                                        <option value="2003">1995</option>
+                                        <option value="2001">1996</option>
+                                        <option value="2002">1997</option>
+                                        <option value="2003">1998</option>
+                                        <option value="2003">1999</option>
+                                        <option value="2003">2000</option>
+
                                     </select>
+                                    <span class="form-error-message">
+                                       <span ng-show="contactDetailsForm.year.$error.required" >Please Select Year</span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Address</label>
+                            <label class="col-md-4 control-label">Address<span class="required">*</span></label>
                             <div class="col-md-8">
-                                <input class="form-control" type="text" placeholder="Address 1" ng-model="contactDetails.address1">
+                                <input class="form-control" type="text" name="address1" placeholder="Address 1" ng-model="contactDetails.address1" ng-required="true">
+                                <span class="form-error-message">
+                                    <span ng-show="contactDetailsForm.address1.$error.required && contactDetailsForm.address1.$dirty" >Please Enter Your Address</span>
+                                </span>
                                 <input class="form-control" type="text" placeholder="Address 2" ng-model="contactDetails.address2">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">City</label>
+                            <label class="col-md-4 control-label">City<span class="required">*</span></label>
                             <div class="col-md-8">
-                                <input class="form-control" type="text" placeholder="City" ng-model="contactDetails.city">
+                                <input class="form-control" type="text" name="city" placeholder="City" ng-model="contactDetails.city" ng-required="true">
+                                <span class="form-error-message">
+                                    <span ng-show="contactDetailsForm.city.$error.required && contactDetailsForm.city.$dirty" >Please Enter Your City Name</span>
+                                </span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Postal Code</label >
+                            <label class="col-md-4 control-label">Postal Code<span class="required">*</span></label >
                             <div class="col-md-8">
-                                <input class="form-control" type="text" placeholder="Postal Code" ng-model="contactDetails.postalCode" />
+                                <input class="form-control" type="text" name="postalCode" placeholder="Postal Code" ng-model="contactDetails.postalCode" ng-required="true" />
+                                <span class="form-error-message">
+                                    <span ng-show="contactDetailsForm.postalCode.$error.required && contactDetailsForm.postalCode.$dirty" >Please Enter Your Postal Code</span>
+                                </span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Country</label>
+                            <label class="col-md-4 control-label">Country<span class="required">*</span></label>
                             <div class="col-md-8">
-                                <select class="form-control placeholder" ng-model="contactDetails.country">
-                                    <option value="">Country</option>
+                                <select class="form-control" name="country" ng-model="contactDetails.country" ng-required="true" >
+                                    <option value="" disabled selected>Select Your Country</option>
                                     <option value="india">India</option>
                                     <option value="usa">USA</option>
                                     <option value="england">England</option>
+                                    <option value="japan">Japan</option>
                                 </select>
+                                <span class="form-error-message">
+                                    <span ng-show="contactDetailsForm.country.$error.required && contactDetailsForm.country.$dirty" >Please Select Your Country Name</span>
+                                </span>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-4"></div>
-                            <div class="col-md-8 update-info-btn" > <button type="submit" class="btn btn-primary" ng-click="updateContactDetails()">Update</button></div>
+                            <div class="col-md-8 update-info-btn" > <button type="submit" class="btn btn-primary" ng-disabled="!contactDetailsForm.$valid || !contactDetailsForm.$dirty" ng-click="updateContactDetails()">Update</button></div>
                         </div>
+                            </form>
                     </div>
                 </div><!-- end Contact Detail-->
 
                 <!-- update bussiness detail -->
                 <div class="panel panel-primary post panel-shadow" ng-show="panel.businessDetail">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Business Detail</h3>
+                        <h3 class="panel-title">Business Detail<span class="required-hint">Required fields are *</span></h3>
                     </div>
                     <div class="panel-body">
-
+                        <form name="businessDetailForm" autocomplete='off'>
                         <div class="form-group">
                             <div class="col-md-12">
-                                <b>About Bussiness</b>
-                                <textarea class = "form-control" rows = "5" placeholder="About Bussiness" ng-model="businessDetails.aboutBusiness"></textarea>
+                                <b>About Bussiness<span class="required">*</span></b>
+                                <textarea class="form-control" name="aboutBussiness" rows = "5" placeholder="About Bussiness" ng-model="businessDetails.aboutBusiness" ng-required="true"></textarea>
+                                <span class="form-error-message">
+                                    <span ng-show="businessDetailForm.aboutBussiness.$error.required && businessDetailForm.aboutBussiness.$dirty" >Please Enter About Bussiness</span>
+                                </span>
                             </div>
                         </div>
 
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Company Name</label>
+                            <label class="col-md-4 control-label">Company Name<span class="required">*</span></label>
                             <div class="col-md-8">
-                                <input class="form-control" type="text" placeholder="Company Name"  ng-model="businessDetails.companyName">
+                                <input class="form-control" type="text" name="companyName" placeholder="Company Name"  ng-model="businessDetails.companyName" ng-required="true">
+                                <span class="form-error-message">
+                                    <span ng-show="businessDetailForm.companyName.$error.required && businessDetailForm.companyName.$dirty" >Please Enter Company Name</span>
+                                </span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Address</label>
+                            <label class="col-md-4 control-label">Address<span class="required">*</span></label>
                             <div class="col-md-8">
-                                <input class="form-control" type="text" placeholder="Address 1" ng-model="businessDetails.address1">
+                                <input class="form-control" type="text" name="address1" placeholder="Address 1" ng-model="businessDetails.address1" ng-required="true">
+                                <span class="form-error-message">
+                                    <span ng-show="businessDetailForm.address1.$error.required && businessDetailForm.address1.$dirty" >Please Enter Address</span>
+                                </span>
                                 <input class="form-control" type="text" placeholder="Address 2"  ng-model="businessDetails.address2">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">City</label>
+                            <label class="col-md-4 control-label">City<span class="required">*</span></label>
                             <div class="col-md-8">
-                                <input class="form-control" type="text" placeholder="City"  ng-model="businessDetails.city">
+                                <input class="form-control" type="text" name="city" placeholder="City"  ng-model="businessDetails.city" ng-required="true">
+                                <span class="form-error-message">
+                                    <span ng-show="businessDetailForm.city.$error.required && businessDetailForm.city.$dirty" >Please Enter City</span>
+                                </span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Postal Code</label>
+                            <label class="col-md-4 control-label">Postal Code<span class="required">*</span></label>
                             <div class="col-md-8">
-                                <input class="form-control" type="text" placeholder="Postal Code"  ng-model="businessDetails.postalCode">
+                                <input class="form-control" type="text" name="poctelCode" placeholder="Postal Code"  ng-model="businessDetails.postalCode" ng-required="true">
+                                <span class="form-error-message">
+                                    <span ng-show="businessDetailForm.poctelCode.$error.required && businessDetailForm.poctelCode.$dirty" >Please Enter Postal Code</span>
+                                </span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Country</label>
+                            <label class="col-md-4 control-label">Country<span class="required">*</span></label>
                             <div class="col-md-8">
-                                <select class="form-control placeholder"  ng-model="businessDetails.country">
-                                    <option value="" >Country</option>
+                                <select class="form-control"  name="country" ng-model="businessDetails.country" ng-required="true">
+                                    <option value="" >Select Your Country</option>
                                     <option value="india">India</option>
                                     <option value="usa">USA</option>
                                     <option value="england">England</option>
                                 </select>
+                                <span class="form-error-message">
+                                    <span ng-show="businessDetailForm.country.$error.required && businessDetailForm.country.$dirty" >Please Select Country Name</span>
+                                </span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Primary Phone</label >
+                            <label class="col-md-4 control-label">Primary Phone<span class="required">*</span></label >
                             <div class="col-md-8">
-                                <input class="form-control" type="text" placeholder="Primary Phone"  ng-model="businessDetails.primaryPhone">
+                                <input class="form-control" type="text" name="primaryPhone" placeholder="Primary Phone"  ng-model="businessDetails.primaryPhone" ng-required="true">
+                                <span class="form-error-message">
+                                    <span ng-show="businessDetailForm.primaryPhone.$error.required && businessDetailForm.primaryPhone.$dirty" >Please Enter Primary Phone Number</span>
+                                </span>
                             </div>
                         </div>
 
@@ -249,8 +319,9 @@
 
                         <div class="form-group">
                             <div class="col-md-4"></div>
-                            <div class="col-md-8 update-info-btn" > <button type="submit" class="btn btn-primary" ng-click="updateBusinessDetails()">Update</button></div>
+                            <div class="col-md-8 update-info-btn" > <button type="submit" class="btn btn-primary" ng-disabled="!businessDetailForm.$valid || !businessDetailForm.$dirty" ng-click="updateBusinessDetails()">Update</button></div>
                         </div>
+                            </form>
                     </div>
                 </div><!-- end update bussiness detail -->
 
@@ -260,79 +331,49 @@
                         <h3 class="panel-title">Lead Categories/Sub Categories</h3>
                     </div>
                     <div class="panel-body">
-
+                        <ng-form name="categorySubCategoryForm" autocomplete='off'>
                         <div class="form-group">
-                            <label class="col-md-6 control-label">Categories</label>
+                            <label class="col-md-1 control-label"></label>
+                            <label class="col-md-5 control-label">Categories</label>
                             <label class="col-md-6 control-label">Sub Categories</label>
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <select class="form-control placeholder">
-                                    <option value="">Category</option>
-                                    <option value="">House Service</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <select class="form-control placeholder">
-                                    <option value="">Sub Category</option>
-                                    <option value="">Gardening</option>
-                                </select>
-                            </div>
-                        </div>
+                        <div class="form-group" ng-repeat="leadCat in leadCategories">
 
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <select class="form-control placeholder">
-                                    <option value="">Category</option>
-                                    <option value="">House Service</option>
+                            <div class="col-md-1">
+                            <div class="update-info-btn category-remove" ng-show="$index != 0"> <button type="submit" class="btn btn-primary  btn-xs"  ng-click="removeLeadCategories($index)"><span class="glyphicon glyphicon-minus"></span></button></div>
+                            </div>
+                            <div class="col-md-5">
+                                <select class="form-control" name="category_{{$index}}" ng-model="leadCat.category" ng-required="true">
+                                    <option value="" disabled selected>Category</option>
+                                    <option value="houseservice">House Service</option>
+                                    <option value="houseservice1">House Service 2</option>
+                                    <option value="houseservice2">House Service 3</option>
                                 </select>
+                                <span class="form-error-message" >
+                                       <span ng-show="categorySubCategoryForm.category_{{$index}}.$error.required" >Please Select Category</span>
+                                </span>
                             </div>
                             <div class="col-md-6">
-                                <select class="form-control placeholder">
-                                    <option value="">Sub Category</option>
-                                    <option value="">Gardening</option>
+                                <select class="form-control" name="subCategory_{{$index}}" ng-model="leadCat.subCategory" ng-required="true">
+                                    <option value="" disabled selected>Sub Category</option>
+                                    <option value="gardning">Gardning</option>
+                                    <option value="gardning1">Gardning 1</option>
+                                    <option value="gardning2">Gardning 2</option>
                                 </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <select class="form-control placeholder">
-                                    <option value="">Category</option>
-                                    <option value="">House Service</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <select class="form-control placeholder">
-                                    <option value="">Sub Category</option>
-                                    <option value="">Gardening</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <select class="form-control placeholder">
-                                    <option value="">Category</option>
-                                    <option value="">House Service</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <select class="form-control placeholder">
-                                    <option value="">Sub Category</option>
-                                    <option value="">Gardening</option>
-                                </select>
+                                <span class="form-error-message" >
+                                   {{ categorySubCategoryForm.subCategory0.$error.required}}
+                                       <span ng-show="categorySubCategoryForm.subCategory_{{$index}}.$error.required" >Please Select Sub Category</span>
+                                </span>
                             </div>
                         </div>
 
 
-
-
-
                         <div class="form-group">
-                            <div class="col-md-12 update-info-btn" > <button type="submit" class="btn btn-primary">Update</button></div>
+                            <div class="col-md-12 update-info-btn" > <button type="submit" class="btn btn-primary pull-right"  ng-click="addMoreLeadCategories()"><span class="glyphicon glyphicon-plus"></span> Add More...</button></div>
+                            <div class="col-md-12 update-info-btn" > <button type="submit" class="btn btn-primary" ng-disabled="!categorySubCategoryForm.$valid"  ng-click="updateLeadCategories()">Update</button></div>
                         </div>
+                        </ng-form>
                     </div>
                 </div><!-- end Lead Category and subcategory detail -->
 
@@ -340,26 +381,26 @@
                 <div  class="panel panel-primary post panel-shadow" ng-show="panel.changePassword">
 
                     <div class="panel-heading">
-                        <h3 class="panel-title">Change password</h3>
+                        <h3 class="panel-title">Change password<span class="required-hint">Required fields are *</span></h3>
                     </div>
                     <div class="panel-body">
                         <form name="changePassForm" autocomplete='off'>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Current Password</label>
+                            <label class="col-md-4 control-label">Current Password<span class="required">*</span></label>
                             <div class="col-md-8">
                                 <input class="form-control" id="cPassword" type="password" name="cPassword" placeholder="Current Password" autocomplete="off"
-                                       ng-model="passwords.cPassword" required />
+                                       ng-model="passwords.cPassword" ng-required="true" />
                                  <span class="form-error-message">
                                     <span ng-show="changePassForm.cPassword.$error.required && changePassForm.cPassword.$dirty" >Please enter your current password</span>
                                 </span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">New Password</label>
+                            <label class="col-md-4 control-label">New Password<span class="required">*</span></label>
                             <div class="col-md-8">
                                 <input class="form-control" type="password" name="nPassword" placeholder="New Password"
-                                       ng-model="passwords.nPassword"  ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required />
-                                 <span class="form-error-message">
+                                       ng-model="passwords.nPassword"  ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" ng-required="true" />
+                                <span class="form-error-message">
                                 <span ng-show="changePassForm.nPassword.$error.required && changePassForm.nPassword.$dirty" >Please enter your new password</span>
                                 <span ng-show="!changePassForm.nPassword.$error.required && (changePassForm.nPassword.$error.minlength || changePassForm.nPassword.$error.maxlength) &&
                                 changePassForm.nPassword.$dirty">Passwords must be between 8 and 20 characters.</span>
@@ -370,10 +411,10 @@
                         </div>
                         <div class="form-group">
 
-                            <label class="col-md-4 control-label" >Confirm Password</label>
+                            <label class="col-md-4 control-label" >Confirm Password<span class="required">*</span></label>
                             <div class="col-md-8">
                                 <input class="form-control" type="password" name="confPassword" placeholder="Confirm Password"
-                                       ng-model="passwords.confPassword"  valid-password-c   required />
+                                       ng-model="passwords.confPassword"  valid-password-c   ng-required="true" />
                                  <span class="form-error-message">
                                     <span ng-show="changePassForm.confPassword.$error.required && changePassForm.confPassword.$dirty" >Please confirm your password</span>
                                      <span ng-show="!changePassForm.confPassword.$error.required && changePassForm.confPassword.$error.noMatch && changePassForm.nPassword.$dirty">Passwords do not match.</span>
@@ -398,21 +439,23 @@
                         <h3 class="panel-title">Communication Preferences</h3>
                     </div>
                     <div class="panel-body">
+                        <form name="communicationPreferenceForm" autocomplete='off'>
                         <div class="form-group">
-                            <div class="col-md-12"> <input type="radio"  ng-model="commPrefences" value="email" required>
+                            <div class="col-md-12"> <input type="radio"  name="commPrefences" ng-model="commPrefences" value="email" ng-required="true">
                             Send or receive communication via Email
                                 </div>
 
                         </div>
                         <div class="form-group">
-                            <div class="col-md-12"> <input type="radio"  ng-model="commPrefences" value="sms" required>
+                            <div class="col-md-12"> <input type="radio" name="commPrefences" ng-model="commPrefences" value="sms" ng-required="true">
                             Send or receive communication via SMS
                                 </div>
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-12 update-info-btn"> <button type="submit" class="btn btn-primary" ng-click="updatePreferences()">Update</button></div>
+                            <div class="col-md-12 update-info-btn"> <button type="submit" class="btn btn-primary" ng-disabled="!communicationPreferenceForm.$valid || !communicationPreferenceForm.$dirty" ng-click="updatePreferences()">Update</button></div>
                         </div>
+                            </form>
                       </div>
                 </div><!-- end update Communication Preferences info-->
 

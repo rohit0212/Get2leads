@@ -23,13 +23,13 @@ module.exports = function(app, passport) {
         failureRedirect : '/login', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
-    
+
     // logout action============
     app.get('/logout', function(req, res) {
     	 req.logout();
     	 res.redirect('/login');
     });
-    
+
     // SIGNUP ==============================
     // show the signup form
     app.get('/signup', function(req, res) {
@@ -73,7 +73,7 @@ module.exports = function(app, passport) {
         res.redirect('/login');
     });
 
-  
+
 
     /***********************************************************************************App Calls*********************/
 
@@ -87,7 +87,7 @@ module.exports = function(app, passport) {
         for (var property in req.user) {
             output += property + ': ' + req.user[property]+'; ';
         }*/
-      //  console.log("req.user--1-"+req.user.local.email);
+       console.log("req.user--1-");
         res.render('profile.ejs', {
             user : req.user // get the user out of session and pass to template
         });
@@ -130,6 +130,11 @@ module.exports = function(app, passport) {
         // res.redirect('/login');
     });
 
+    // process the update Contact Details request=========
+    app.post('/updateLeadCategories',accountManager.updateLeadCategories, function(req, res) {
+        // res.redirect('/login');
+    });
+
     // process the get User data request=========
     app.get('/getUserData',accountManager.getUserData, function(req, res) {
         // res.redirect('/login');
@@ -140,8 +145,8 @@ module.exports = function(app, passport) {
     app.post('/publishNewLead',leadHandler.publishNewLead, function(req, res) {
         // res.redirect('/login');
     });
-   
-    
+
+
     app.post('/updateProfilePic', accountManager.updateProfilePic,function(req, res) {
     	res.send(req.imageUrl);
     });

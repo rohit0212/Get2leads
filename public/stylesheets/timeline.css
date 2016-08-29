@@ -1692,9 +1692,10 @@ ul>li>a
 .profile-nav ul li.active a,.profile-nav
 ul>li>a:focus,.profile-nav
 ul>li>a:hover {
-    background: #f8f7f5 !important;
+    background: #2e6792 !important;
     border-left: 5px solid #ff766c;
-    color: #89817f !important
+    color: white !important;
+    font-weight: bold;
 }
 
 .profile-nav
@@ -2105,10 +2106,11 @@ a:active,a:focus,a:hover {
     padding-right: 4px;
 }
 
-.placeholder {
+.customplaceholder {
     color: #a2a7ad;
 }
-
+/*for combo box place holder color issue start*/
+select:invalid { color: #a2a7ad; }
 select option:first-child {
     color: grey;
     display: none;
@@ -2118,6 +2120,22 @@ select option {
     color: #000;
 }
 
+.category-remove{
+    margin-top:-5px;
+}
+
+
+/*
+select option:first-child {
+    color: grey;
+    display: none;
+}
+
+select option {
+    color: #000;
+}
+*/
+/*for combo box place holder color issue end*/
 .padding-left0-right0 {
     padding-right: 0;
     padding-left: 0;
@@ -2129,6 +2147,8 @@ select option {
 
 .form-error-message {
     color: red;
+    font-size: 11px;
+    font-weight: normal;
 }
 
 .create-post {
@@ -2158,6 +2178,27 @@ max-height:100%;
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
+
+span.required{
+    color:red;
+}
+
+span.required-hint{
+    color:white;float: right;
+}
+
+.profile-pic{
+    font-weight: bold;font-size: 40px;line-height: 120px;border-style:none;outline:none;
+}
+
+
+
+
+
+
+
+
+
 
 /*!
 * IE10 viewport hack for Surface/desktop Windows 8 bug

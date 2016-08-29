@@ -15,6 +15,7 @@ require('./config/passport')(passport);
 var app = express();
 
 //environment setup
+console.log("************************************")
 if (app.get('env') === 'development') {
 	//database connect
 	mongoose.connect("mongodb://localhost:27017/get2leads");
@@ -55,8 +56,8 @@ app.use(function(req, res, next) {
 
 // development handler
 if (app.get('env') === 'development') {
-	
-	
+
+
 	//error handler
 	// will print stacktrace
   app.use(function(err, req, res, next) {

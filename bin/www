@@ -24,17 +24,17 @@ var server = http.createServer(app);
 /**********Socket connection code start ********************/
 var io = require('socket.io')(server);
 io.on('connection', function (socket) {
-	 console.log("*****************************user Connectd******************************");	 
+	 console.log("*****************************user Connectd******************************");
 	 socket.on("disconnect",function(){
 		 console.log("*****************************user has disconnectd******************************");
 	 });
-	 
+
 	 socket.on('join', function (data) {
 		 console.log("*****************************Join******************************"+data.email);
 		    socket.join(data.email); // We are using room of socket io
 		    //io.sockets.in(data.email).emit('new_msg', {msg: 'hello'});
 		  });
-	 
+
 	 socket.on('comment', function (data) {
 		 console.log("*****************************comment******************************"+data.email);
 		 io.sockets.in(data.email).emit('new_comment', data);
@@ -43,7 +43,7 @@ io.on('connection', function (socket) {
 		    console.log("*****************************reply******************************"+data.email);
 		    io.sockets.in(data.email).emit('new_reply', data);
 		  });
-	 
+
 });
 
 /**********Socket connection code end ********************/
