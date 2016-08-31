@@ -22,12 +22,12 @@ $(document).ready(function() {
       $("div.about-tab>div.about-tab-content").eq(index).addClass("active");
   });
 
-  /*==============  show login and register panel ===============*/
+  /*==============  show login and register panel ===============
   $(".btn-panel-home").click(function(){
     $(".panel-home").toggleClass("hidden");
     $(".panel-home").toggleClass("animated");
     $(".panel-home").toggleClass("fadeInRight");
-  });
+  });*/
 
   /*============== show image in modal when click =================*/
   $('img.show-in-modal').click(function(e){

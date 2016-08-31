@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
 <% include ./partials/head%>
+
+    <script src="../javascripts/angularjs/controller/login.js"></script>
 </head>
 
 
 
-<body class="welcome-page animated fadeIn" style="background-image: url('../images/welcome.png');">
+<body class="welcome-page animated fadeIn" style="background-image: url('../images/welcome.png');"  ng-app="login" ng-controller="loginController">
 <div class="row-welcome"	>
     <div class="row-body">
         <div class="welcome-inner">
@@ -24,7 +26,7 @@
             <div class="welcome-inputs">
                 <div class="panel panel-primary panel-inputs panel-home <%= (page =='login' ?'animated fadeInUp' : 'hidden fadeInUp') %>">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Login <span class="pull-right"> <a  href="#" class="btn btn-primary btn-xs btn-panel-home">Sign Up</a> </span></h3>
+                        <h3 class="panel-title">Login <span class="pull-right"> <a  href="#" class="btn btn-primary btn-xs btn-panel-home" ng-click="hideShowPanel()">Sign Up</a> </span></h3>
                     </div>
                     <div class="panel-body">
                         <form action="/login" method="POST" autocomplete="off">
@@ -36,7 +38,7 @@
                             <%}%>
                             <input	type="email" id="short" name="email" placeholder="email">
                             <input type="password" name="password" placeholder="Password">
-                            <input type="checkbox" style="width:15px;" ><span class="rememberme">Remember me </span></input><br />
+                            <input type="checkbox" style="width:15px;" name="remember" ><span class="rememberme">Remember me </span></input><br />
                             <button type="submit" name="login" class="btn btn-primary">Login</button>
                             <span class="forgot-password-link pull-right"> <a href="./forgotpassword">Forgot your password?</a><br>
 </span></form>
@@ -47,10 +49,10 @@
                 <div class="panel panel-primary panel-inputs panel-home  <%= (page =='signup' ?'animated fadeInUp' : 'hidden fadeInUp') %>">
                     <div class="panel-heading">
                         <h3 class="panel-title">Sign Up <span class="pull-right"> <a
-                                        href="#" class="btn btn-primary btn-xs btn-panel-home">Login</a> </span></h3>
+                                        href="#" class="btn btn-primary btn-xs btn-panel-home" ng-click="hideShowPanel()">Login</a> </span></h3>
                     </div>
                     <div class="panel-body">
-                        <form action="/signup" method="POST" autocomplete="off">
+                        <form action="/signup" name="signupForm"  method="POST" autocomplete="off">
                             <% if (page =='signup'  && message.length > 0) { %>
                             <div class="alert alert-danger fade in">
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -68,11 +70,34 @@
                                 Business
                             </label>
                             </div>
-                            <input type="email" name="email" placeholder="Email" required>
-                            <input type="password" name="password" placeholder="Password" required>
-                            <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
-                            <input type="text" name="firstName" placeholder="First Name" required>
-                            <input type="text" name="lastName" placeholder="Last Name" required>
+                            <input type="email" name="email" ng-model="email" placeholder="Email" required>
+                            <span class="form-error-message-login">
+                                    <span ng-show="signupForm.email.$error.required && signupForm.email.$dirty" >Please enter your Email</span>
+                            </span>
+                            <input type="password" name="password" ng-model="password" placeholder="Password" ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" ng-required="true">
+                            <span class="form-error-message-login">
+                                <span ng-show="signupForm.password.$error.required && signupForm.password.$dirty" >Please enter your Password</span>
+                                <span ng-show="!signupForm.password.$error.required && (signupForm.password.$error.minlength || signupForm.password.$error.maxlength) &&
+                                signupForm.password.$dirty">Password must be between 8 and 20 characters.</span>
+                                <span ng-show="!signupForm.password.$error.required && !signupForm.password.$error.minlength && !signupForm.password.$error.maxlength && signupForm.password.$error.pattern
+                                && signupForm.password.$dirty">Must contain one lower &amp; uppercase letter, and one non-alpha character (a number or a symbol.)</span>
+                            </span>
+
+
+
+                            <input type="password" name="confirmPassword" ng-model="confirmPassword" placeholder="Confirm Password"   valid-password-c ng-required="true">
+                            <span class="form-error-message-login">
+                                    <span ng-show="signupForm.confirmPassword.$error.required && signupForm.confirmPassword.$dirty" >Please confirm your Password</span>
+                                     <span ng-show="!signupForm.confirmPassword.$error.required && signupForm.confirmPassword.$error.noMatch && signupForm.confirmPassword.$dirty">Passwords do not match.</span>
+                            </span>
+                            <input type="text" name="firstName" ng-model="firstName" placeholder="First Name" ng-change="firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1)" ng-required="true">
+                            <span class="form-error-message-login">
+                                    <span ng-show="signupForm.firstName.$error.required && signupForm.firstName.$dirty" >Please enter your First Name</span>
+                            </span>
+                            <input type="text" name="lastName" ng-model="lastName" placeholder="Last Name" ng-required="true" ng-change="lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1)" >
+                            <span class="form-error-message-login">
+                                    <span ng-show="signupForm.lastName.$error.required && signupForm.lastName.$dirty" >Please enter your Last Name</span>
+                            </span>
                             <input type="checkbox" style="width:15px;" required><span class="terms-condition test-white font12">
                                 By checking box and clicking Sign Up button you agree to our <a href="./forgotpassword">Terms and Conditions</a> and also you have read our
                                  <a href="./forgotpassword">Policy</a> including our <a href="./forgotpassword">Cookie Use</a>.</span></input><br /><br />

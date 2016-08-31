@@ -17,12 +17,26 @@ module.exports = function(app, passport) {
         res.render('signup.ejs', { message: req.flash('loginMessage'),page:'login' });
     });
 
-    // process the login form=====================
+   /* // process the login form=====================
     app.post('/login', passport.authenticate('local-login', {
         successRedirect : '/home', // redirect to the secure profile section
         failureRedirect : '/login', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
-    }));
+    }));*/
+
+    // process the login form=====================
+    app.post('/login', passport.authenticate('local-login', {
+            failureRedirect : '/login', // redirect back to the signup page if there is an error
+            failureFlash : true // allow flash messages
+        })
+        , function(req, res) {
+            if (req.body.remember == "on") {
+                req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // Cookie expires after 30 days
+            } else {
+                req.session.cookie.expires = false; // Cookie expires at end of session
+            }
+            res.redirect('/home');
+        });
 
     // logout action============
     app.get('/logout', function(req, res) {
@@ -40,7 +54,7 @@ module.exports = function(app, passport) {
 
     // process the signup form=========
     app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect : '/login', // redirect to the secure profile section
+        successRedirect : '/signupsuccess', // redirect to the secure profile section
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
@@ -57,6 +71,11 @@ module.exports = function(app, passport) {
         res.render('forgotpassword.ejs', { message: req.flash('passwordResetMessage') });
     });
 
+    // show the forget password form==========
+    app.get('/signupsuccess', function(req, res) {
+        // render the page and pass in any flash data if it exists
+        res.render('signupsuccess.ejs', { message: req.flash('passwordResetMessage') });
+    });
     // process the forget password form=========
     app.post('/forgotpassword',accountManager.forgotPassword, function(req, res) {
         res.redirect('/login');
