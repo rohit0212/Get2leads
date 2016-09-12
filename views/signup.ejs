@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <% include ./partials/head%>
-
     <script src="../javascripts/angularjs/controller/login.js"></script>
 </head>
 
@@ -70,9 +69,10 @@
                                 Business
                             </label>
                             </div>
-                            <input type="email" name="email" ng-model="email" placeholder="Email" required>
+                            <input type="email" name="email" ng-model="email" placeholder="Email" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" ng-required="true">
                             <span class="form-error-message-login">
                                     <span ng-show="signupForm.email.$error.required && signupForm.email.$dirty" >Please enter your Email</span>
+                                    <span ng-show="!signupForm.email.$error.required && signupForm.email.$dirty && signupForm.email.$error.pattern" >Please enter valid Email</span>
                             </span>
                             <input type="password" name="password" ng-model="password" placeholder="Password" ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" ng-required="true">
                             <span class="form-error-message-login">
@@ -112,7 +112,7 @@
 
         </div>
     </div>
-</div>
+
 
 
 <% include ./partials/footer%>

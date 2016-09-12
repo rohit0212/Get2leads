@@ -6,15 +6,17 @@ var mongoose     = require('mongoose');
 module.exports = function(app, passport) {
 
     // HOME PAGE (with login links)=========
-    app.get('/', function(req, res) {
-        res.render('signup.ejs', { message: req.flash('loginMessage'),page:'login' });
+    app.get('/', isLoggedIn,function(req, res) {
+      //  res.render('signup.ejs', { message: req.flash('loginMessage'),page:'login' });
+        res.redirect('/home');
     });
 
 
     // show the login form============
-    app.get('/login', function(req, res) {
+    app.get('/login',isLoggedIn, function(req, res) {
         // render the page and pass in any flash data if it exists
-        res.render('signup.ejs', { message: req.flash('loginMessage'),page:'login' });
+        //res.render('signup.ejs', { message: req.flash('loginMessage'),page:'login' });
+        res.redirect('/home');
     });
 
    /* // process the login form=====================
@@ -196,5 +198,6 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
     // if they aren't redirect them to the home page
-    res.redirect('/login');
+   // res.redirect('/login');
+    res.render('signup.ejs', { message: req.flash('loginMessage'),page:'login' });
 }
