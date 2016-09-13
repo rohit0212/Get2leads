@@ -375,6 +375,7 @@ img {
     height: 35px;
     border-radius: 50%;
     -webkit-border-radius: 50%;
+
 }
 
 .modal-photo .comments-list .comment
@@ -788,7 +789,13 @@ a {
     -webkit-border-radius: 50%;
     display: block;
     margin-right: 10px;
-    border: 1px solid rgba(0, 0, 0, .1)
+    border: 1px solid rgba(0, 0, 0, .1);
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 50px;
+    color:white;
+    background-color:#2e6792;
+    text-align: center;
 }
 
 .post .post-heading
@@ -893,15 +900,33 @@ a
      height: 35px;
      border-radius: 50%;
      -webkit-border-radius: 50%;
+    display: block;
+    margin-right: 10px;
+    border: 1px solid rgba(0, 0, 0, .1);
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 33px;
+    color:white;
+    background-color:#2e6792;
+    text-align: center;
  }
 
 .post .post-footer
 .comments-list .comment .avatar1
 {
-    width: 25px;
-    height: 25px;
+    width: 27px;
+    height: 27px;
     border-radius: 50%;
     -webkit-border-radius: 50%;
+    display: block;
+    margin-right: 10px;
+    border: 1px solid rgba(0, 0, 0, .1);
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 25px;
+    color:white;
+    background-color:#2e6792;
+    text-align: center;
 }
 .post
 .post-footer .comments-list .comment .comment-body .sub-comment-body{
@@ -2197,7 +2222,10 @@ span.required-hint{
     font-weight: bold;font-size: 40px;line-height: 120px;border-style:none;outline:none;
 }
 
-
+.margin0padding0{
+    margin: 0px;
+    padding: 0px;
+}
 
 
 

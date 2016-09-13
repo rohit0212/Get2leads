@@ -51,13 +51,14 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="container-fluid bd-example-row">
+                                        <form name="newPostForm" autocomplete='off'>
 
-                                            <div class="form-group">
+                                            <div class="col-md-12 margin0padding0">
                                                 <div class="col-md-2">
-                                                    <label class="control-label">Category</label>
+                                                    <label class="control-label">Category<span class="required">*</span></label>
                                                  </div>
                                                 <div class="col-md-4">
-                                                    <select class="form-control placeholder" ng-model="newLead.category" ng-change="getSubCategory(newLead.category)">
+                                                    <select class="form-control" name="category" ng-model="newLead.category" ng-change="getSubCategory(newLead.category)" ng-required="true" >
                                                         <option value="">Category</option>
                                                         <%for(category in categories){
                                                         if(typeof categories[category] !== 'function') {
@@ -65,52 +66,70 @@
                                                         <option value="<%= category%>"><%= categories[category]['description']%></option>
                                                         <%}}%>
                                                     </select>
+                                                    <span class="form-error-message">
+                                                       <span ng-show="newPostForm.category.$error.required && newPostForm.category.$dirty">Please Select Category</span>
+                                                    </span>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <label class="control-label">Sub Category</label>
+                                                    <label class="control-label">Sub Category<span class="required">*</span></label>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <select class="form-control placeholder" ng-model="newLead.subCategory">
+                                                    <select class="form-control" name="subCategory" ng-model="newLead.subCategory" ng-required="true" >
                                                         <option value="">Sub Category</option>
                                                         <option ng-repeat="(key,val) in subCategories" value="{{key}}">{{val}}</option>
                                                     </select>
+                                                    <span class="form-error-message">
+                                                       <span ng-show="newPostForm.subCategory.$error.required  && newPostForm.subCategory.$dirty">Please Select Sub Category</span>
+                                                    </span>
                                                 </div>
                                             </div>
 
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label">Subject</label>
+                                            <label class="col-md-2 control-label">Subject<span class="required">*</span></label>
                                             <div class="col-md-10">
-                                                <input class="form-control" type="text" placeholder="Subject" ng-model="newLead.subject">
+                                                <input class="form-control" name="subject" type="text" placeholder="Subject" ng-model="newLead.subject" ng-required="true">
+                                                <span class="form-error-message">
+                                                       <span ng-show="newPostForm.subject.$error.required  && newPostForm.subject.$dirty">Please Enter Subject</span>
+                                                </span>
                                             </div>
                                         </div>
 
 
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Price Range</label>
+                                        <div class="col-md-12 margin0padding0" >
+                                            <label class="col-md-2 control-label">Price Range<span class="required">*</span></label>
                                             <div class="col-md-3">
-                                                <input class="form-control" type="text" placeholder="Price Range From" ng-model="newLead.priceRangeFrom">
+                                                <input class="form-control" type="text" name="priceRangeFrom" placeholder="Price Range From" ng-model="newLead.priceRangeFrom" ng-required="true">
+                                                <span class="form-error-message">
+                                                       <span ng-show="newPostForm.priceRangeFrom.$error.required  && newPostForm.priceRangeFrom.$dirty">Please Enter Range</span>
+                                                </span>
                                             </div>
-                                            <label class="col-md-1 control-label">To</label>
+                                            <label class="col-md-1 control-label">To<span class="required">*</span></label>
                                             <div class="col-md-3">
-                                                  <input class="form-control" type="text" placeholder="Price Ragnge To"  ng-model="newLead.priceRangeTo">
+                                                  <input class="form-control" name="priceRangeTo" type="text" placeholder="Price Ragnge To"  ng-model="newLead.priceRangeTo" ng-required="true">
+                                                <span class="form-error-message">
+                                                       <span ng-show="newPostForm.priceRangeTo.$error.required  && newPostForm.priceRangeTo.$dirty">Please Enter Range</span>
+                                                </span>
                                             </div>
                                             <div class="col-md-3">
-                                                <select class="form-control placeholder" ng-model="newLead.activeStatus">
+                                                <select class="form-control" name="activeStatus" ng-model="newLead.activeStatus"  >
                                                     <option value="">Active/Inactive</option>
-                                                    <option value="Active">Active</option>
-                                                    <option value="Inactive">Inactive</option>
+                                                    <option value="active" ng-selected="true">Active</option>
+                                                    <option value="inactive">Inactive</option>
                                                 </select>
+                                                <span class="form-error-message">
+                                                       <span ng-show="newPostForm.activeStatus.$error.required  && newPostForm.activeStatus.$dirty">Please Select Status</span>
+                                                </span>
                                             </div>
                                         </div>
 
 
-                                        <div class="form-group">
+                                        <div class="col-md-12 margin0padding0">
                                             <div class="col-md-2">
-                                                <label class="control-label">From Date</label>
+                                                <label class="control-label">From Date<span class="required">*</span></label>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class='input-group date datetimepicker' >
-                                                    <input type='text' class="form-control" placeholder="From Date" ng-model="newLead.fromDate"/>
+                                                    <input type='text' name="fromDate" class="form-control" placeholder="From Date" ng-model="newLead.fromDate" />
                                                             <span class="input-group-addon">
                                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                            </span>
@@ -118,11 +137,11 @@
 
                                             </div>
                                             <div class="col-md-2">
-                                                <label class="control-label">To Date</label>
+                                                <label class="control-label">To Date<span class="required">*</span></label>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class='input-group date datetimepicker'>
-                                                    <input type='text' class="form-control" placeholder="To Date"  ng-model="newLead.toDate"/>
+                                                    <input type='text' name="toDate" class="form-control" placeholder="To Date"  ng-model="newLead.toDate" />
                                                             <span class="input-group-addon">
                                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                            </span>
@@ -132,33 +151,45 @@
                                         </div>
 
 
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Country</label>
+                                        <div class="col-md-12 margin0padding0">
+                                            <label class="col-md-2 control-label">Country<span class="required">*</span></label>
                                             <div class="col-md-3">
-                                                <select class="form-control placeholder" ng-model="newLead.country">
+                                                <select class="form-control" name="country" ng-model="newLead.country" ng-required="true" >
                                                     <option value="">Country</option>
                                                     <option value="India">India</option>
                                                     <option value="USA">USA</option>
                                                     <option value="England">England</option>
                                                 </select>
+                                                <span class="form-error-message">
+                                                       <span ng-show="newPostForm.country.$error.required  && newPostForm.country.$dirty">Please Select Country</span>
+                                                </span>
                                             </div>
-                                            <label class="col-md-2 control-label">Zip Code</label>
+                                            <label class="col-md-2 control-label">Zip Code<span class="required">*</span></label>
                                             <div class="col-md-2">
-                                                <input class="form-control" type="text" placeholder="Zip Code" ng-model="newLead.zipCode">
+                                                <input class="form-control" type="text" name="zipCode" placeholder="Zip Code" ng-model="newLead.zipCode" ng-required="true">
+                                                <span class="form-error-message">
+                                                       <span ng-show="newPostForm.zipCode.$error.required  && newPostForm.zipCode.$dirty">Please Enter Zip Code</span>
+                                                </span>
                                             </div>
 
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control"  placeholder="Limit(in miles)"  ng-model="newLead.limit">
+                                                <input type="text" class="form-control" name="limit"  placeholder="Limit(in miles)"  ng-model="newLead.limit" ng-required="true">
+                                                <span class="form-error-message">
+                                                       <span ng-show="newPostForm.limit.$error.required  && newPostForm.limit.$dirty">Please Enter Limit</span>
+                                                </span>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label">Detail</label>
+                                            <label class="col-md-2 control-label">Details<span class="required">*</span></label>
                                             <div class="col-md-10">
-                                                <textarea class = "form-control" rows = "5" placeholder="What you are looking for?"  ng-model="newLead.detail"></textarea>
+                                                <textarea class = "form-control" name="detail" rows = "5" placeholder="What you are looking for?"  ng-model="newLead.detail" ng-required="true"></textarea>
+                                                <span class="form-error-message">
+                                                       <span ng-show="newPostForm.detail.$error.required  && newPostForm.detail.$dirty">Please Enter Details</span>
+                                                </span>
                                             </div>
-                                        </div>                                      
-                                        
+                                        </div>
+
                                         <div class="form-group">
                                             <label class="col-md-2 control-label">Upload Photo</label>
                                             <div class="col-md-10">
@@ -183,13 +214,15 @@
                                               </div>
                                             </div>
                                         </div>
+
+                                        </form>
                                         
                                     </div>
                                 </div>
                                 <div class="modal-footer  bg-grey ">
                                     <div style="text-align: center;">
-                                        <button type="button" class="btn btn-success" ng-click="publishNewLead()">Publish</button>
-                                        <button type="button" class="btn btn-primary">Save</button>
+                                        <button type="button" class="btn btn-success" ng-disabled="!newPostForm.$valid" ng-click="publishNewLead()">Publish</button>
+                                        <button type="button" class="btn btn-primary"  ng-disabled="!newPostForm.$valid" >Save</button>
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 
                                     </div>
@@ -209,7 +242,7 @@
                 <!-- Display posts start -->
                 <div class="panel panel-white post panel-shadow font12" ng-repeat="lead in leads">
                     <div class="post-heading">
-                        <div class="pull-left image"><img ng-src="{{lead.createdBy.local.profileImageUrl}}"    class="avatar" alt="RY"></div>
+                        <div class="pull-left image"><img ng-src="{{lead.createdBy.local.profileImageUrl}}" class="avatar" alt="{{lead.createdBy.local.userDetails.contactDetails.firstName.charAt(0)}}{{lead.createdBy.local.userDetails.contactDetails.lastName.charAt(0)}}"></div>
                          
                         <div >
                             <div style="display:inline;font-weight: 700;font-size: 14px;">{{lead.subject+ " ("+lead.priceRangeFrom +"- "+lead.priceRangeTo+") " +" - " + lead.country+" " + lead.zipCode }}</div>
@@ -246,7 +279,7 @@
                         <ul class="comments-list" ng-show="lead.comments.length">
                             <li class="comment" ng-repeat="comnt in lead.comments"   ><a class="pull-left" href="#" > <!-- ng-if="comnt.createdBy._id == userId || lead.createdBy._id == userId"  -->
                                    
-                                    <img class="avatar" ng-src="{{comnt.createdBy.local.profileImageUrl}}" alt="avatar" > </a>
+                                    <img class="avatar" ng-src="{{comnt.createdBy.local.profileImageUrl}}" alt="{{comnt.createdBy.local.userDetails.contactDetails.firstName.charAt(0)}}{{comnt.createdBy.local.userDetails.contactDetails.lastName.charAt(0)}}" > </a>
                                 <div class="comment-body" >
                                     <div class="comment-heading">
                                         <h4 class="comment-user-name"><a href="#">{{comnt.createdBy.local.userDetails.contactDetails.firstName+" "+comnt.createdBy.local.userDetails.contactDetails.lastName}}</a></h4>
@@ -259,7 +292,7 @@
 
                                     <ul class="comments-list" >
                                     <li class="comment" ng-repeat="reply in comnt.replies">
-                                    <a class="pull-left" href="#"> <img  class="avatar1" ng-src="{{reply.createdBy.local.profileImageUrl}}" alt="avatar" > </a>
+                                    <a class="pull-left" href="#"> <img  class="avatar1" ng-src="{{reply.createdBy.local.profileImageUrl}}" alt="{{reply.createdBy.local.userDetails.contactDetails.firstName.charAt(0)}}{{reply.createdBy.local.userDetails.contactDetails.lastName.charAt(0)}}" > </a>
                                     <div class="comment-body sub-comment-body">
                                         <div class="comment-heading">
                                             <h4 class="comment-user-name"><a href="#">{{reply.createdBy.local.userDetails.contactDetails.firstName+" "+reply.createdBy.local.userDetails.contactDetails.lastName}}</a></h4>
@@ -271,7 +304,7 @@
                                     </div>
                                     </li>
                                         <li class="comment" style="padding-bottom:1px;">
-                                            <a class="pull-left" href="#"> <img  class="avatar1" ng-src="<%= user.local.profileImageUrl %>" alt="avatar" > </a>
+                                            <a class="pull-left" href="#" style="margin-bottom: -24px;"> <img  class="avatar1" ng-src="<%= user.local.profileImageUrl %>" alt="<%=user.local.userDetails.contactDetails.firstName.charAt(0)%><%=user.local.userDetails.contactDetails.lastName.charAt(0)%>" > </a>
                                             <div class="comment-body sub-comment-body">
                                                 <form ng-submit="saveReply(comnt, lead.createdBy.local.email)">
                                                 <input	id="{{comnt._id}}" class="form-control input-sm reply-comment-input" placeholder="Write a Reply..." type="text" ng-model="comnt.addReply">
@@ -286,11 +319,11 @@
 
                         </ul>
                          <!-- only bussiness user can camment and for other user it should not available -->
-                        <%if(user.local.userType == "business"){%>
+                        <%//if(user.local.userType == "business"){%>
                         <form ng-submit="saveComment(lead)" ng-hide="lead.comments.length" >
                         <input	class="form-control input-sm add-comment-input" placeholder="Write a comment..." type="text" ng-model="lead.addComment">
                         </form>
-                        <%}%>
+                        <%//}%>
                     </div>
                 </div>
               <!-- Display posts end -->
