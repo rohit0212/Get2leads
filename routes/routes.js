@@ -107,13 +107,23 @@ module.exports = function(app, passport) {
       /*  var output = '';
         for (var property in req.user) {
             output += property + ': ' + req.user[property]+'; ';
-        }*/
-       console.log("req.user--1-");
+        }
+       console.log("req.user--1-");*/
         res.render('profile.ejs', {
             user : req.user // get the user out of session and pass to template
         });
     });
 
+    app.get('/profile1', isLoggedIn, function(req, res) {
+        /*  var output = '';
+         for (var property in req.user) {
+         output += property + ': ' + req.user[property]+'; ';
+         }
+         console.log("req.user--1-");*/
+        res.render('profile1.ejs', {
+            user : req.user // get the user out of session and pass to template
+        });
+    });
     // =====================================
     // HOME SECTION =====================
     // =====================================

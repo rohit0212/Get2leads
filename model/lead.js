@@ -13,6 +13,7 @@ var leadSchema = mongoose.Schema({
             zipCode: String,
             limit: Number,
             detail:String,
+
             createdBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
             createdDate : { type: Date, 'default': Date.now },
             comments : [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],

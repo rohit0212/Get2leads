@@ -2227,8 +2227,15 @@ span.required-hint{
     padding: 0px;
 }
 
+/* Profile tab class start */
+.gray{
+    color: gray;
+}
+/* Profile tab class start */
 
-
+.padding10 {
+    padding: 10px;
+}
 
 
 
